@@ -1,0 +1,109 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "description": "Software para manejo na pecuária de animais como suinos, bovinos, caprinos etc...",
+      "version": "1.0.0",
+      "title": "Pectec"
+    },
+    "host": "stormy-hollows-04970.herokuapp.com",
+    "basePath": "",
+    "schemes": [
+      "https"
+    ],
+    "paths": {
+      
+      "/api/users?since={number}": {
+        "get": {
+          "tags": [
+            "user"
+          ],
+          "summary": "Get femeas by pagination",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "number",
+              "in": "path",
+              "description": "The number that needs to be fetched. Use 145 for testing.",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "successful operation"
+            },
+            "404": {
+              "description": "not found username"
+            },
+            "500": {
+              "description": "error to get data"
+            }
+          }
+        }
+      },
+      "/api/users/{username}/details": {
+        "get": {
+          "tags": [
+            "user"
+          ],
+          "summary": "Get femea details",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "username",
+              "in": "path",
+              "description": "The username that needs to be fetched. Use jdhuntington for testing.",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "successful operation"
+            },
+            "404": {
+              "description": "not found username"
+            },
+            "500": {
+              "description": "error to get data"
+            }
+          }
+        }
+      },
+      "/api/users/{username}/repos": {
+        "get": {
+          "tags": [
+            "user"
+          ],
+          "summary": "Get femea repositories",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "username",
+              "in": "path",
+              "description": "The username that needs to be fetched. Use jdhuntington for testing.",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "successful operation"
+            },
+            "404": {
+              "description": "not found username"
+            },
+            "500": {
+              "description": "error to get data"
+            }
+          }
+        }
+      }
+    }
+  }
