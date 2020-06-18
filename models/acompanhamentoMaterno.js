@@ -29,6 +29,8 @@ export class AcompanhamentoMaterno {
     quantidadeSexoM;
     quantidadeSexoF;
     situacaoNascimento;
+    quantidadeDoado;
+    quantidadeAdotado;
 
     existeDataParto(){
         return this.dataPartoReal ? true : false;
@@ -55,11 +57,13 @@ export class AcompanhamentoMaterno {
         return this.dataPartoReal && semData;
     }
 
-    programarDatasDeAcompanhamento(especie){
+    programarAcompanhamento(especie){
   
         this.diasGestacao = especie.diasGestacao;
         this.diasLactacao = especie.diasLactacao;
         this.diasRecriaPrevisao = especie.diasRecria;
+
+        this.situacaoNascimento = 12;
   
         this.dataFecundacao = new Date(this.dataFecundacao);
         let totalDiasAteParto = this.dataFecundacao.getDate() + this.diasGestacao -1;
@@ -96,6 +100,8 @@ export class AcompanhamentoMaterno {
            this.quantidadeFilhoteNM = 0;
            this.quantidadeFilhoteMF = 0;
            this.pesoFilhoteNascimento = 0;
+           this.quantidadeDoado = 0;
+           this.quantidadeAdotado = 0;
         }
   
         if (!this.quantidadeFilhoteMorto) {

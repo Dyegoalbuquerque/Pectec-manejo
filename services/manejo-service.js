@@ -281,7 +281,7 @@ export class ManejoService {
          let animal = await this.animalRepository.obterPorId(item.femeaId);
          let especie = await this.especieRepository.obterPorId(animal.especieId);
 
-         item.programarDatasDeAcompanhamento(especie);
+         item.programarAcompanhamento(especie);
 
          let id = await this.acompanhamentoRepository.salvar(item);
 
@@ -315,7 +315,7 @@ export class ManejoService {
       if (item.alterouEstado(acompanhamento)) {
          let especie = await this.especieRepository.obterPorId(mae.especieId);
 
-         item.programarDatasDeAcompanhamento(especie);
+         item.programarAcompanhamento(especie);
       }
 
       if (item.pariu(acompanhamento)) {
