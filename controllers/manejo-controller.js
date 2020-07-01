@@ -13,64 +13,6 @@ export class ManejoController extends BaseController {
       this.manejoService = container.get(ManejoService);
    }
 
-   obterCiclosApartirDe = async (req, res) => {
-
-      try {
-         let ano = req.params.ano.replace(':', '');
-         let data = await this.manejoService.obterCiclosApartirDe(ano);
-         return res.status(200).json(data);
-
-      } catch (e) {
-         return this.tratarErro(e, res);
-      }
-   }
-
-   obterCiclosFilhosPorIds = async (req, res) => {
-      try {
-
-         let data = await this.manejoService.obterCiclosFilhosPorIds(req.body);
-         return res.status(200).json(data);
-
-      } catch (e) {
-         return this.tratarErro(e, res);
-      }
-   }
-
-   removerCiclo = async (req, res) => {
-
-      try {
-
-         let id = req.params.id.replace(':', '');
-         let data = await this.manejoService.removerCiclo(id);
-         return res.status(201).json(data);
-
-      } catch (e) {
-         return this.tratarErro(e, res);
-      }
-   }
-
-   atualizarCiclo = async (req, res) => {
-
-      try {
-         let data = await this.manejoService.atualizarCiclo(req.body);
-         return res.status(200).json(data);
-
-      } catch (e) {
-         return this.tratarErro(e, res);
-      }
-   }
-
-   salvarCiclo = async (req, res) => {
-
-      try {
-         let data = await this.manejoService.salvarCiclo(req.body);
-         return res.status(201).json(data);
-
-      } catch (e) {
-         return this.tratarErro(e, res);
-      }
-   }
-
    simularCiclo = async (req, res) => {
 
       try {

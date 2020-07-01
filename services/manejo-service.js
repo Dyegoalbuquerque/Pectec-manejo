@@ -62,86 +62,9 @@ export class ManejoService {
       return ciclo;
    }
 
-   obterCiclosApartirDe = async (ano) => {
-
-      let result = await this.cicloRepository.obterApartirDe(ano);
-
-      return result;
-   }
-
-   obterCiclosFilhosPorIds = async (ids) => {
-      let result = [];
-
-      for (let i = 0; i < ids.length; i++) {
-         let filhos = await this.cicloFilhoRepository.obterPorCicloId(ids[i]);
-         result = result.concat(filhos);
-      }
-
-      return result;
-   }
-
-   removerCiclo = async (id) => {
-
-      let filhos = await this.cicloFilhoRepository.obterPorCicloId(id);
-
-      for (let i = 0; i < filhos.length; i++) {
-         await this.cicloFilhoRepository.remover(filhos[i].id);
-      }
-      await this.cicloRepository.remover(id);
-
-      return id;
-   }
-
-   atualizarCiclo = async (item) =>{
-
-      let numero = item.numero;
-
-      item = this.montarCiclo(item);
-
-      this.removerLancamentosPorCicloId(item.id);
-
-      item.numero = numero;
-      item.id = await this.cicloRepository.atualizar(item);
-
-      await this.montarLancamentosDoCiclo(item);
-
-      return item.id;
-   }
-
-   salvarCiclo = async (filho) =>{
-
-      let ciclo;
-
-      if (filho.cicloId == undefined) {
-
-         ciclo = await this.montarCiclo(filho);
-         ciclo.id = await this.cicloRepository.salvar(ciclo);
-
-      } else {
-         ciclo = await this.cicloRepository.obterPorId(filho.cicloId);
-      }
-
-      filho.valorGastosExtra = filho.valorGastosExtra == undefined ? 0 : filho.valorGastosExtra;
-
-      let valorCiclo = (filho.valorRacao * filho.quantidadeRacao * filho.quantidadeDias * filho.quantidadeAnimais) +
-         filho.valorMedicamentos + filho.valorGastosExtra;
-
-      filho.valor = valorCiclo;
-      let now = new Date();
-      now.setDate(new Date(filho.dataInicio).getDate() + filho.quantidadeDias)
-      filho.dataTermino = now;
-      filho.cicloId = ciclo.id;
-      filho.id = await this.cicloFilhoRepository.salvar(filho);
-
-      ciclo.valorCicloEstimado += filho.valor;
-      await this.cicloRepository.atualizar(ciclo);
-
-      return filho.id;
-   }
-
    simularCiclo = async (item) => {
 
-      return this.montaCiclo(item);
+      return await this.montaCiclo(item);
    }
 
    obterLotesVenda = async (tipo) => {

@@ -34,17 +34,7 @@ router.get('/programa-itens', manejoController.obterProgramaItensPorSituacao);
 
 router.get('/filhotes', manejoController.obterFilhotes);
 
-router.get('/ciclo/:ano', manejoController.obterCiclosApartirDe);
-
-router.post('/ciclo/filhos', manejoController.obterCiclosFilhosPorIds);
-
-router.post('/ciclo', manejoController.salvarCiclo);
-
-router.put('/ciclo', manejoController.atualizarCiclo);
-
 router.post('/simular-ciclo', manejoController.simularCiclo);
-
-router.delete('/ciclo/:id', manejoController.removerCiclo);
 
 router.get('/programa', manejoController.obterPrograma);
 
