@@ -10,7 +10,7 @@ router.get('/animal/:id', manejoController.obterAnimalPorId);
 
 router.get('/animal/:id/ficha', manejoController.obterFichaAnimal);
 
-router.get('/acompanhamentos', manejoController.obterAcompanhamentosPorAno);
+router.get('/ciclos-reproducao', manejoController.obterCiclosReproducaoPorAno);
 
 router.put('/animal', manejoController.atualizarAnimal);
 
@@ -18,11 +18,11 @@ router.delete('/animal/:id',manejoController.removerAnimal);
 
 router.post('/animal', manejoController.salvarAnimal);
 
-router.get('/animal/:id/acompanhamentos', manejoController.obterAcompanhamentosPorAnimal);
+router.get('/animal/:id/ciclos-reproducao', manejoController.obterCiclosReproducaoPorAnimal);
 
-router.post('/animal/acompanhamento', manejoController.salvarAcompanhamento);
+router.post('/animal/ciclo-reproducao', manejoController.salvarCicloReproducao);
 
-router.put('/animal/acompanhamento', manejoController.atualizarAcompanhamento);
+router.put('/animal/ciclo-reproducao', manejoController.atualizarCicloReproducao);
 
 router.get('/lote', manejoController.obterLotesVenda);
 
@@ -33,8 +33,6 @@ router.get('/programa', manejoController.obterPrograma);
 router.get('/programa-itens', manejoController.obterProgramaItensPorSituacao);
 
 router.get('/filhotes', manejoController.obterFilhotes);
-
-router.post('/simular-ciclo', manejoController.simularCiclo);
 
 router.get('/programa', manejoController.obterPrograma);
 

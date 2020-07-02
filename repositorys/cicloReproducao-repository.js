@@ -1,11 +1,11 @@
 
 import { Repository } from './repository';
-import { AcompanhamentoMaterno } from '../models/acompanhamentoMaterno';
+import { CicloReproducao } from '../models/cicloReproducao';
 
-export class AcompanhamentoRepository extends Repository{
+export class CicloReproducaoRepository extends Repository{
 
     constructor() {
-        super(AcompanhamentoMaterno);
+        super(CicloReproducao);
     }
 
     async obterPorFemea(femeaId) {

@@ -1,6 +1,6 @@
 
 
-export class AcompanhamentoMaterno {
+export class CicloReproducao {
 
     constructor() { }
 

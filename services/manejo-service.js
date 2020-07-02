@@ -1,7 +1,5 @@
 import { AnimalRepository } from '../repositorys/animal-repository';
-import { AcompanhamentoRepository } from '../repositorys/acompanhamento-repository';
-import { CicloRepository } from '../repositorys/ciclo-repository';
-import { CicloFilhoRepository } from '../repositorys/ciclo-filho-repository';
+import { CicloReproducaoRepository } from '../repositorys/cicloReproducao-repository';
 import { SituacaoRepository } from '../repositorys/situacao-repository';
 import { EspecieRepository } from '../repositorys/especie-repository';
 import { Constantes } from '../constantes';
@@ -17,11 +15,8 @@ import { ManejoDto } from '../dtos/manejoDto';
 export class ManejoService {
 
    constructor(container) {
-
-      this.cicloRepository = container.get(CicloRepository);
-      this.cicloFilhoRepository = container.get(CicloFilhoRepository);
       this.animalRepository = container.get(AnimalRepository);
-      this.acompanhamentoRepository = container.get(AcompanhamentoRepository);
+      this.acompanhamentoRepository = container.get(CicloReproducaoRepository);
       this.programaRepository = container.get(ProgramaRepository);
       this.programaItemRepository = container.get(ProgramaItemRepository);
       this.situacaoRepository = container.get(SituacaoRepository);
@@ -32,39 +27,82 @@ export class ManejoService {
       this.loteRepository = container.get(LoteRepository);
    }
 
+   obterCiclosRepdorucaoPorAno = async (ano) => {
+      let femeas = await this.animalRepository.obterPorSexo("F");
 
-   montarCiclo = async (filho) => {
-
-      let ciclo = new Ciclo();
-      let dataIncio = new Date(filho.dataInicio);
-      let now = new Date();
-      now.setDate(dataIncio.getDate() + filho.quantidadeDias)
-
-      let dataParaTipoDeCiclo = now;
-
-      switch (filho.tipo) {
-         case Constantes.TipoCicloGestacao():
-            ciclo.dataCobertura = dataIncio;
-            ciclo.dataParicao = dataParaTipoDeCiclo;
-            break;
-         case Constantes.TipoCicloLactacao():
-            ciclo.dataApartar = dataParaTipoDeCiclo;
-            break;
-         case Constantes.TipoCicloRecria():
-            ciclo.dataApartar = dataParaTipoDeCiclo;
-            break;
+      for (let i = 0; i < femeas.length; i++) {
+         let item = femeas[i];
+         item.acompanhamentos = await this.acompanhamentoRepository.obterPorFemea(item.id);
       }
 
-      ciclo.ano = new Date(filho.dataInicio).getFullYear();
-      ciclo.numero = await this.cicloRepository.max() + 1;
-      ciclo.descricao = `${Constantes.DescricaoCiclo()} ${ciclo.numero}`;;
-
-      return ciclo;
+      return femeas;
    }
 
-   simularCiclo = async (item) => {
+   obterCicloReproducaoPorAnimal = async (id) => {
+      let acompanhamentos = await this.acompanhamentoRepository.obterPorFemea(id);
 
-      return await this.montaCiclo(item);
+      return acompanhamentos;
+   }
+
+   salvarCicloReproducao = async (item) => {
+
+      if (!item.id) {
+
+         let acompanhamentos = await this.acompanhamentoRepository.obterPorFemea(item.femeaId);
+
+         for (let i = 0; i < acompanhamentos.length; i++) {
+            let acompanhamento = acompanhamentos[i];
+            acompanhamento.ativo = false;
+            await this.acompanhamentoRepository.atualizar(acompanhamento);
+         }
+
+         let animal = await this.animalRepository.obterPorId(item.femeaId);
+         let especie = await this.especieRepository.obterPorId(animal.especieId);
+
+         item.programarAcompanhamento(especie);
+
+         let id = await this.acompanhamentoRepository.salvar(item);
+
+         if (item.existeDataParto()) {
+            let mae = await this.animalRepository.obterPorId(item.femeaId);
+            
+            await this.criarfilhotesNascidos(mae, item);
+         }
+
+         return id;
+      }
+   }
+
+   atualizarCicloReproducao = async (item) => {
+
+      let acompanhamento = await this.acompanhamentoRepository.obterPorId(item.id);
+
+      if (item.alterouDataFecundacao(acompanhamento)) {
+
+         let acompanhamentos = await this.acompanhamentoRepository.obterPorFemea(item.femeaId);
+
+         for (let i = 0; i < acompanhamentos.length; i++) {
+            let acompanhamento = acompanhamentos[i];
+            acompanhamento.ativo = false;
+            await this.acompanhamentoRepository.atualizar(acompanhamento);
+         }
+      }
+
+      let mae = await this.animalRepository.obterPorId(item.femeaId);
+
+      if (item.alterouEstado(acompanhamento)) {
+         let especie = await this.especieRepository.obterPorId(mae.especieId);
+
+         item.programarAcompanhamento(especie);
+      }
+
+      if (item.pariu(acompanhamento)) {
+         await this.criarfilhotesNascidos(mae, item);
+      }
+
+      let result = await this.acompanhamentoRepository.atualizar(item);
+
+      return result;
    }
 
    obterLotesVenda = async (tipo) => {
@@ -131,23 +169,6 @@ export class ManejoService {
       return result;
    }
 
-   obterAcompanhamentosPorAno = async (ano) => {
-      let femeas = await this.animalRepository.obterPorSexo("F");
-
-      for (let i = 0; i < femeas.length; i++) {
-         let item = femeas[i];
-         item.acompanhamentos = await this.acompanhamentoRepository.obterPorFemea(item.id);
-      }
-
-      return femeas;
-   }
-
-   obterAcompanhamentosPorAnimal = async (id) => {
-      let acompanhamentos = await this.acompanhamentoRepository.obterPorFemea(id);
-
-      return acompanhamentos;
-   }
-
    salvarAnimal = async (item) => {
       item.numero = await this.animalRepository.max() + 1;
 
@@ -187,67 +208,6 @@ export class ManejoService {
       await this.programaItemRepository.remover(id);
 
       return id;
-   }
-
-   salvarAcompanhamento = async (item) => {
-
-      if (!item.id) {
-
-         let acompanhamentos = await this.acompanhamentoRepository.obterPorFemea(item.femeaId);
-
-         for (let i = 0; i < acompanhamentos.length; i++) {
-            let acompanhamento = acompanhamentos[i];
-            acompanhamento.ativo = false;
-            await this.acompanhamentoRepository.atualizar(acompanhamento);
-         }
-
-         let animal = await this.animalRepository.obterPorId(item.femeaId);
-         let especie = await this.especieRepository.obterPorId(animal.especieId);
-
-         item.programarAcompanhamento(especie);
-
-         let id = await this.acompanhamentoRepository.salvar(item);
-
-         if (item.existeDataParto()) {
-            let mae = await this.animalRepository.obterPorId(item.femeaId);
-            
-            await this.criarfilhotesNascidos(mae, item);
-         }
-
-         return id;
-      }
-   }
-
-   atualizarAcompanhamento = async (item) => {
-
-      let acompanhamento = await this.acompanhamentoRepository.obterPorId(item.id);
-
-      if (item.alterouDataFecundacao(acompanhamento)) {
-
-         let acompanhamentos = await this.acompanhamentoRepository.obterPorFemea(item.femeaId);
-
-         for (let i = 0; i < acompanhamentos.length; i++) {
-            let acompanhamento = acompanhamentos[i];
-            acompanhamento.ativo = false;
-            await this.acompanhamentoRepository.atualizar(acompanhamento);
-         }
-      }
-
-      let mae = await this.animalRepository.obterPorId(item.femeaId);
-
-      if (item.alterouEstado(acompanhamento)) {
-         let especie = await this.especieRepository.obterPorId(mae.especieId);
-
-         item.programarAcompanhamento(especie);
-      }
-
-      if (item.pariu(acompanhamento)) {
-         await this.criarfilhotesNascidos(mae, item);
-      }
-
-      let result = await this.acompanhamentoRepository.atualizar(item);
-
-      return result;
    }
 
    obterProgramaItensPorSituacao = async (situacaoId) => {

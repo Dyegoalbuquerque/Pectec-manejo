@@ -4,7 +4,7 @@ import { plainToClass } from "class-transformer";
 import { ManejoService } from '../services/manejo-service';
 import { BaseController } from './base-controller';
 import { Animal } from '../models/animal';
-import { AcompanhamentoMaterno } from '../models/acompanhamentoMaterno';
+import { CicloReproducao } from '../models/cicloReproducao';
 
 export class ManejoController extends BaseController {
 
@@ -115,10 +115,10 @@ export class ManejoController extends BaseController {
       }
    }
 
-   obterAcompanhamentosPorAno = async (req, res) => {
+   obterCiclosReproducaoPorAno = async (req, res) => {
       try {
          let ano = req.query.ano;
-         let data = await this.manejoService.obterAcompanhamentosPorAno(ano);
+         let data = await this.manejoService.obterCiclosRepdorucaoPorAno(ano);
 
          return res.status(200).json(data);
       } catch (e) {
@@ -126,10 +126,10 @@ export class ManejoController extends BaseController {
       }
    }
 
-   obterAcompanhamentosPorAnimal = async (req, res) => {
+   obterCiclosReproducaoPorAnimal = async (req, res) => {
       try {
          let id = req.params.id.replace(':', '');
-         let data = await this.manejoService.obterAcompanhamentosPorAnimal(id);
+         let data = await this.manejoService.obterCicloReproducaoPorAnimal(id);
 
          return res.status(200).json(data);
       } catch (e) {
@@ -188,11 +188,11 @@ export class ManejoController extends BaseController {
       }
    }
 
-   salvarAcompanhamento = async (req, res) => {
+   salvarCicloReproducao = async (req, res) => {
 
       try {
-         let acompanhamento = plainToClass(AcompanhamentoMaterno, req.body);
-         let data = await this.manejoService.salvarAcompanhamento(acompanhamento);
+         let ciclo = plainToClass(CicloReproducao, req.body);
+         let data = await this.manejoService.salvarCicloReproducao(ciclo);
          return res.status(201).json(data);
 
       } catch (e) {
@@ -200,11 +200,11 @@ export class ManejoController extends BaseController {
       }
    }
 
-   atualizarAcompanhamento = async (req, res) => {
+   atualizarCicloReproducao = async (req, res) => {
 
       try {
-         let acompanhamento = plainToClass(AcompanhamentoMaterno, req.body);
-         let data = await this.manejoService.atualizarAcompanhamento(acompanhamento);
+         let ciclo = plainToClass(CicloReproducao, req.body);
+         let data = await this.manejoService.atualizarCicloReproducao(ciclo);
          return res.status(200).json(data);
 
       } catch (e) {
@@ -274,20 +274,20 @@ export class ManejoController extends BaseController {
       }
    }
 
-   criarfilhotesNascidos = async (mae, acompanhamento) => {
+   criarfilhotesNascidos = async (mae, ciclo) => {
 
-      let quantidadeSexoM = acompanhamento.quantidadeSexoM;
-      let quantidadeSexoF = acompanhamento.quantidadeSexoF;
+      let quantidadeSexoM = ciclo.quantidadeSexoM;
+      let quantidadeSexoF = ciclo.quantidadeSexoF;
 
-      for (let i = 0; i < acompanhamento.quantidadeFilhoteVV; i++) {
+      for (let i = 0; i < ciclo.quantidadeFilhoteVV; i++) {
          let filhote = new Animal();
 
          filhote.maeId = mae.id;
-         filhote.paiId = acompanhamento.reprodutorId;
+         filhote.paiId = ciclo.reprodutorId;
          filhote.especieId = mae.especieId;
-         filhote.dataNascimento = acompanhamento.dataPartoReal;
+         filhote.dataNascimento = ciclo.dataPartoReal;
          filhote.raca = mae.raca;
-         filhote.situacao = acompanhamento.situacaoNascimento;
+         filhote.situacao = ciclo.situacaoNascimento;
          filhote.numero = await this.animalRepository.max() + 1;
 
          if (quantidadeSexoM > 0) {
