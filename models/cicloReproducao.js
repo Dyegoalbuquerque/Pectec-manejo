@@ -31,6 +31,7 @@ export class CicloReproducao {
     situacaoNascimento;
     quantidadeDoado;
     quantidadeAdotado;
+    numeroFemeaAdocao;
 
     existeDataParto(){
         return this.dataPartoReal ? true : false;

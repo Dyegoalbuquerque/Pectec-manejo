@@ -2,13 +2,11 @@ import { AnimalRepository } from '../repositorys/animal-repository';
 import { CicloReproducaoRepository } from '../repositorys/cicloReproducao-repository';
 import { SituacaoRepository } from '../repositorys/situacao-repository';
 import { EspecieRepository } from '../repositorys/especie-repository';
-import { Constantes } from '../constantes';
 import { ProgramaRepository } from '../repositorys/programa-repository';
 import { ProgramaItemRepository } from '../repositorys/programaItem-repository';
 import { SubcategoriaRepository } from '../repositorys/subCategoria-repository';
 import { CausaObitoRepository } from '../repositorys/causaObito-repository';
 import { LoteRepository } from '../repositorys/lote-repository';
-import { Animal } from '../models/animal';
 import { ManejoFactory } from '../manejoFactory';
 import { ManejoDto } from '../dtos/manejoDto';
 
@@ -94,10 +92,6 @@ export class ManejoService {
          let especie = await this.especieRepository.obterPorId(mae.especieId);
 
          item.programarAcompanhamento(especie);
-      }
-
-      if (item.pariu(acompanhamento)) {
-         await this.criarfilhotesNascidos(mae, item);
       }
 
       let result = await this.acompanhamentoRepository.atualizar(item);
@@ -267,35 +261,6 @@ export class ManejoService {
       let situacoes = await this.situacaoRepository.obterPorSetor(setor);
 
       return situacoes;
-   }
-
-   criarfilhotesNascidos = async (mae, acompanhamento) => {
-
-      let quantidadeSexoM = acompanhamento.quantidadeSexoM;
-      let quantidadeSexoF = acompanhamento.quantidadeSexoF;
-
-      for (let i = 0; i < acompanhamento.quantidadeFilhoteVV; i++) {
-         let filhote = new Animal();
-
-         filhote.maeId = mae.id;
-         filhote.paiId = acompanhamento.reprodutorId;
-         filhote.especieId = mae.especieId;
-         filhote.dataNascimento = acompanhamento.dataPartoReal;
-         filhote.raca = mae.raca;
-         filhote.situacao = acompanhamento.situacaoNascimento;
-         filhote.numero = await this.animalRepository.max() + 1;
-
-         if (quantidadeSexoM > 0) {
-            filhote.sexo = Constantes.SexoMasculino();
-            quantidadeSexoM--;
-
-         } else if (quantidadeSexoF > 0) {
-            filhote.sexo = Constantes.SexoFeminino();
-            quantidadeSexoF--;
-         }
-
-         await this.animalRepository.salvar(filhote);
-      }
    }
 
    atualizarSituacoes = async (especieId) => {
