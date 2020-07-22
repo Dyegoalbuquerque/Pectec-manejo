@@ -7,28 +7,16 @@ export class Suino extends Animal {
         super();
     }
 
-    taNaFaseRecemNascido(idade) {
-        return idade > 0 && idade < 7 && !this.taNaEmObito();
+    taNaFaseMaternidade(idade) {
+        return idade >= 1 && idade < 30  && !this.taNaEmObito() && !this.taVendido();
     }
 
-    taNaFasePreInicialI(idade) {
-        return idade >= 7 && idade < 35  && !this.taNaEmObito() && !this.taVendido();
-    }
-
-    taNaFasePreInicialII(idade) {
-        return idade >= 35 && idade <= 49  && !this.taNaEmObito() && !this.taVendido();
-    }
-
-    taNaFaseInicial(idade) {
-        return idade > 50 && idade < 70  && !this.taNaEmObito() && !this.taVendido();
-    }
-
-    taNaFaseCrescimento(idade) {
-        return idade > 70 && idade < 111  && !this.taNaEmObito() && !this.taVendido();
+    taNaFaseCreche(idade) {
+        return idade >= 30 && idade < 64  && !this.taNaEmObito() && !this.taVendido();
     }
 
     taNaFaseTerminacao(idade) {
-        return idade >= 111 && this.situacao == "T" && !this.taNaEmObito() && !this.taVendido();
+        return idade >= 64 && this.situacao == "T" && !this.taNaEmObito() && !this.taVendido();
     }
 
     taNaFaseConfirmacaoGestacao(idade) {
@@ -51,10 +39,6 @@ export class Suino extends Animal {
         return this.situacao == "D"  && !this.taNaEmObito() && !this.taVendido();
     }
 
-    taRecemChegado() {
-        return this.situacao == "RC"  && !this.taNaEmObito() && !this.taVendido();
-    }
-
     taNaFaseRecria(idade) {
         return !this.taNaFaseMarra(idade) && !this.taNaFaseGestacao(idade) && !this.taNaFaseLactacao(idade) && !this.taVendido();
     }
@@ -75,16 +59,10 @@ export class Suino extends Animal {
 
         let idade = this.calcularIdade();
 
-        if (this.taNaFaseRecemNascido(idade)) {
-            this.situacao = "RN";
-        }else if(this.taNaFasePreInicialI(idade)){
-            this.situacao = "PI";
-        }else if(this.taNaFasePreInicialII(idade)){
-            this.situacao = "PII";
-        }else if(this.taNaFaseInicial(idade)){
-            this.situacao = "I";
-        }else if(this.taNaFaseCrescimento(idade)){
-            this.situacao = "C";
+        if(this.taNaFaseMaternidade(idade)){
+            this.situacao = "AM";
+        }else if(this.taNaFaseCreche(idade)){
+            this.situacao = "AC";
         }else if(this.taNaFaseTerminacao(idade)){
             this.situacao = "T";
         }else if(this.taNaFaseConfirmacaoGestacao(idade)){
@@ -99,8 +77,6 @@ export class Suino extends Animal {
             this.situacao = "D";
         }else if(this.taNaFaseDeReprodutor(idade)){
             this.situacao = "RP";
-        }else if(this.taRecemChegado()){
-            this.situacao = "RC";
         }else if(this.taNaFaseMarra(idade)){
             this.situacao = "M";
         }else if(this.taNaFaseRecria(idade)){

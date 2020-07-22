@@ -19,6 +19,7 @@ export class Animal {
     procedencia;
     acompanhamentos;
     filhos;
+    pertence;
 
     calcularIdade() {
         var hoje = new Date();
