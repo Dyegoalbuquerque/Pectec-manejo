@@ -39,7 +39,7 @@ export class Suino extends Animal {
         return this.situacao == "D"  && !this.taNaEmObito() && !this.taVendido();
     }
 
-    taNaFaseRecria(idade) {
+    taNaFaseIDC(idade) {
         return !this.taNaFaseMarra(idade) && !this.taNaFaseGestacao(idade) && !this.taNaFaseLactacao(idade) && !this.taVendido();
     }
 
@@ -53,36 +53,5 @@ export class Suino extends Animal {
 
     taVendido(){
         return !this.taNaEmObito() && this.situacao == "V";
-    }
-
-    atualizarSituacao() {
-
-        let idade = this.calcularIdade();
-
-        if(this.taNaFaseMaternidade(idade)){
-            this.situacao = "AM";
-        }else if(this.taNaFaseCreche(idade)){
-            this.situacao = "AC";
-        }else if(this.taNaFaseTerminacao(idade)){
-            this.situacao = "T";
-        }else if(this.taNaFaseConfirmacaoGestacao(idade)){
-            this.situacao = "CG";
-        }else if(this.taNaFaseGestacao(idade)){
-            this.situacao = "G";
-        }else if(this.taNaFaseLactacao(idade)){
-            this.situacao = "L";
-        }else if(this.taNaEmObito()){
-            this.situacao = "O";
-        }else if(this.taDescontinuado()){
-            this.situacao = "D";
-        }else if(this.taNaFaseDeReprodutor(idade)){
-            this.situacao = "RP";
-        }else if(this.taNaFaseMarra(idade)){
-            this.situacao = "M";
-        }else if(this.taNaFaseRecria(idade)){
-            this.situacao = "R";
-        }else if(this.taVendido()){
-            this.situacao = "V";
-        }
     }
 }

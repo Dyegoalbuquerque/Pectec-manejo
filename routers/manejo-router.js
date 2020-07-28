@@ -32,8 +32,6 @@ router.get('/programa', manejoController.obterPrograma);
 
 router.get('/programa-itens', manejoController.obterProgramaItensPorSituacao);
 
-router.get('/filhotes', manejoController.obterFilhotes);
-
 router.get('/programa', manejoController.obterPrograma);
 
 router.delete('/programa-item/:id', manejoController.removerProgramaItem);

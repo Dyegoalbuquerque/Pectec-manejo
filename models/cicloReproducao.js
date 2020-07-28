@@ -13,7 +13,7 @@ export class CicloReproducao {
     dataApartarPrevisao;
     dataApartarReal;
     dataFinalIDC;
-    dataFinalIdcPrevisao
+    dataFinalIdcPrevisao;
     ativo;
     inceminacao;
     procedenciaReprodutor;

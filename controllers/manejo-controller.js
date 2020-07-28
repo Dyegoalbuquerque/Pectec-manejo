@@ -57,16 +57,6 @@ export class ManejoController extends BaseController {
       }
    }
 
-   obterFilhotes = async (req, res) => {
-      try {
-         let data = await this.manejoService.obterFilhotes();
-
-         return res.status(200).json(data);
-      } catch (e) {
-         return this.tratarErro(e, res);
-      }
-   }
-
    obterReprodutores = async (req, res) => {
       try {
          let data = await this.manejoService.obterReprodutores();
@@ -271,35 +261,6 @@ export class ManejoController extends BaseController {
 
       } catch (e) {
          return this.tratarErro(e, res);
-      }
-   }
-
-   criarfilhotesNascidos = async (mae, ciclo) => {
-
-      let quantidadeSexoM = ciclo.quantidadeSexoM;
-      let quantidadeSexoF = ciclo.quantidadeSexoF;
-
-      for (let i = 0; i < ciclo.quantidadeFilhoteVV; i++) {
-         let filhote = new Animal();
-
-         filhote.maeId = mae.id;
-         filhote.paiId = ciclo.reprodutorId;
-         filhote.especieId = mae.especieId;
-         filhote.dataNascimento = ciclo.dataPartoReal;
-         filhote.raca = mae.raca;
-         filhote.situacao = ciclo.situacaoNascimento;
-         filhote.numero = await this.animalRepository.max() + 1;
-
-         if (quantidadeSexoM > 0) {
-            filhote.sexo = Constantes.SexoMasculino();
-            quantidadeSexoM--;
-
-         } else if (quantidadeSexoF > 0) {
-            filhote.sexo = Constantes.SexoFeminino();
-            quantidadeSexoF--;
-         }
-
-         await this.animalRepository.salvar(filhote);
       }
    }
 

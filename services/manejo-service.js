@@ -7,7 +7,6 @@ import { ProgramaItemRepository } from '../repositorys/programaItem-repository';
 import { SubcategoriaRepository } from '../repositorys/subCategoria-repository';
 import { CausaObitoRepository } from '../repositorys/causaObito-repository';
 import { LoteRepository } from '../repositorys/lote-repository';
-import { ManejoFactory } from '../manejoFactory';
 import { ManejoDto } from '../dtos/manejoDto';
 
 export class ManejoService {
@@ -248,19 +247,5 @@ export class ManejoService {
       let situacoes = await this.situacaoRepository.obterPorSetor(setor);
 
       return situacoes;
-   }
-
-   atualizarSituacoes = async (especieId) => {
-      let especie = await this.especieRepository.obterPorId(especieId);
-      let animais = await this.animalRepository.obterPorEspecie(especie.id);
-
-      for (let i = 0; i < animais.length; i++) {
-         let animal = ManejoFactory.factoryMethod(especie.codigo, animais[i]);
-         animal.atualizarSituacao();
-         await this.animalRepository.atualizar(animal);
-      }
-
-      especie.dataUltimaAtualizacao = new Date();
-      await this.especieRepository.atualizar(especie);
    }
 }

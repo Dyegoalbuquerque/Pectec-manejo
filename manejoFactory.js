@@ -1,7 +1,4 @@
 import { Suino } from './models/suino';
-import { Bovino } from './models/bovino';
-import { Caprino } from './models/caprino';
-import { Animal } from './models/animal';
 
 export class ManejoFactory {
 
@@ -12,12 +9,6 @@ export class ManejoFactory {
         switch (especie) {
             case "S":
                 return this.criarSuino(animal);
-                break;
-            case "B":
-                return this.criarBovino(animal);
-                break;
-            case "C":
-                return this.criarCaprino(animal);
                 break;
             default: return null;
         }
@@ -38,13 +29,5 @@ export class ManejoFactory {
         suino.dataNascimento = animal.dataNascimento;
 
         return suino;
-    }
-
-    static criarBovino(animal) {
-        return new Bovino();
-    }
-
-    static criarCaprino(animal) {
-        return new Caprino();
     }
 }
