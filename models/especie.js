@@ -8,6 +8,6 @@ export class Especie {
     descricao;
     diasGestacao;
     diasLactacao;
-    diasRecria;
+    diasIDC;
     dataUltimaAtualizacao;
 }

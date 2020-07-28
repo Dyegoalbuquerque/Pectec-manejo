@@ -57,15 +57,9 @@ export class ManejoService {
          let animal = await this.animalRepository.obterPorId(item.femeaId);
          let especie = await this.especieRepository.obterPorId(animal.especieId);
 
-         item.programarAcompanhamento(especie);
+         item.programarCiclo(especie);
 
          let id = await this.acompanhamentoRepository.salvar(item);
-
-         if (item.existeDataParto()) {
-            let mae = await this.animalRepository.obterPorId(item.femeaId);
-            
-            await this.criarfilhotesNascidos(mae, item);
-         }
 
          return id;
       }
@@ -91,7 +85,7 @@ export class ManejoService {
       if (item.alterouEstado(acompanhamento)) {
          let especie = await this.especieRepository.obterPorId(mae.especieId);
 
-         item.programarAcompanhamento(especie);
+         item.programarCiclo(especie);
       }
 
       let result = await this.acompanhamentoRepository.atualizar(item);
@@ -113,13 +107,6 @@ export class ManejoService {
 
    obterAnimalPorSituacao = async (situacoes)=> {;
       let result = await this.animalRepository.obterPorSituacao(situacoes);
-
-      return result;
-   }
-
-   obterFilhotes = async () => {
-      let situacoes = ["PI", "PII", "I", "C", "RN"];
-      let result = await this.obterAnimalPorSituacao(situacoes);
 
       return result;
    }

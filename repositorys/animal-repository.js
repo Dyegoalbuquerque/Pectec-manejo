@@ -36,7 +36,7 @@ export class AnimalRepository extends Repository{
     async obterPorSexo(sexo) {
         let result = this.dao.obterTodos();
 
-        let situacoes = ["G", "L", "CG", "R", "M"];
+        let situacoes = ["G", "L", "CG", "IDC", "M"];
 
         result = result.filter(a => a.sexo == sexo && situacoes.includes(a.situacao));
 

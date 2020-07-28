@@ -7,15 +7,13 @@ export class CicloReproducao {
     id;
     reprodutorId;
     femeaId;
-    diasGestacao;
-    diasLactacao;
-    diasRecriaPrevisao;
     dataFecundacao;
     dataPartoPrevisao;
     dataPartoReal;
     dataApartarPrevisao;
     dataApartarReal;
-    dataRecria;
+    dataFinalIDC;
+    dataFinalIdcPrevisao
     ativo;
     inceminacao;
     procedenciaReprodutor;
@@ -28,11 +26,11 @@ export class CicloReproducao {
     quantidadeFilhoteMorto;
     quantidadeSexoM;
     quantidadeSexoF;
-    situacaoNascimento;
     quantidadeDoado;
     quantidadeAdotado;
     numeroFemeaAdocao;
     quantidadeApartado;
+    valorApartado;
 
     existeDataParto(){
         return this.dataPartoReal ? true : false;
@@ -59,18 +57,16 @@ export class CicloReproducao {
         return this.dataPartoReal && semData;
     }
 
-    programarAcompanhamento(especie){
+    programarCiclo(especie){
   
-        this.diasGestacao = especie.diasGestacao;
-        this.diasLactacao = especie.diasLactacao;
-        this.diasRecriaPrevisao = especie.diasRecria;
-
-        this.situacaoNascimento = 12;
+        let diasGestacao = especie.diasGestacao;
+        let diasLactacao = especie.diasLactacao;
+        let diasIDCPrevisao = especie.diasIDC;
   
         this.dataFecundacao = new Date(this.dataFecundacao);
-        let totalDiasAteParto = this.dataFecundacao.getDate() + this.diasGestacao -1;
-        let totalDiasAteApartar = totalDiasAteParto + this.diasLactacao;
-        let totalDiasAteRecriar = totalDiasAteApartar + this.diasRecriaPrevisao;
+        let totalDiasAteParto = this.dataFecundacao.getDate() + diasGestacao -1;
+        let totalDiasAteApartar = totalDiasAteParto + diasLactacao;
+        let totalDiasAteIDC = totalDiasAteApartar + diasIDCPrevisao;
   
         this.dataPartoPrevisao = new Date(this.dataFecundacao);
         this.dataPartoPrevisao.setDate(totalDiasAteParto);
@@ -78,8 +74,8 @@ export class CicloReproducao {
         this.dataApartarPrevisao = new Date(this.dataFecundacao);
         this.dataApartarPrevisao.setDate(totalDiasAteApartar);
   
-        this.dataRecriaPrevisao = new Date(this.dataFecundacao);
-        this.dataRecriaPrevisao.setDate(totalDiasAteRecriar);
+        this.dataFinalIdcPrevisao = new Date(this.dataFecundacao);
+        this.dataFinalIdcPrevisao.setDate(totalDiasAteIDC);
   
         this.ativo = true;
   
@@ -90,7 +86,7 @@ export class CicloReproducao {
         let subtracao = Math.abs(new Date(this.dataPartoReal).getTime() - this.dataFecundacao.getTime());
         let dias = Math.ceil(subtracao / (1000 * 60 * 60 * 24));
   
-        this.diasGestacao = !this.dataPartoReal ? this.diasGestacao : dias;
+        diasGestacao = !this.dataPartoReal ? diasGestacao : dias;
   
         if (this.dataApartarReal) {
            this.ativo = false;
