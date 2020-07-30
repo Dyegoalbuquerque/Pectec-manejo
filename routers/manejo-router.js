@@ -18,7 +18,7 @@ router.delete('/animal/:id',manejoController.removerAnimal);
 
 router.post('/animal', manejoController.salvarAnimal);
 
-router.get('/animal/:id/ciclos-reproducao', manejoController.obterCiclosReproducaoPorAnimal);
+router.get('/animal/:id/ciclos-reproducao/ativo', manejoController.obterCiclosReproducaoAtivoPorAnimal);
 
 router.post('/animal/ciclo-reproducao', manejoController.salvarCicloReproducao);
 

@@ -104,10 +104,10 @@ export class ManejoController extends BaseController {
       }
    }
 
-   obterCiclosReproducaoPorAnimal = async (req, res) => {
+   obterCiclosReproducaoAtivoPorAnimal = async (req, res) => {
       try {
          let id = req.params.id.replace(':', '');
-         let data = await this.manejoService.obterCicloReproducaoPorAnimal(id);
+         let data = await this.manejoService.obterCiclosReproducaoAtivoPorAnimal(id);
 
          return res.status(200).json(data);
       } catch (e) {

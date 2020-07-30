@@ -27,14 +27,14 @@ export class ManejoService {
 
       for (let i = 0; i < femeas.length; i++) {
          let item = femeas[i];
-         item.acompanhamentos = await this.cicloReproducaoRepository.obterPorFemea(item.id);
+         item.acompanhamentos = await this.cicloReproducaoRepository.obterAtivoPorFemea(item.id);
       }
 
       return femeas;
    }
 
-   obterCicloReproducaoPorAnimal = async (id) => {
-      let acompanhamentos = await this.cicloReproducaoRepository.obterPorFemea(id);
+   obterCiclosReproducaoAtivoPorAnimal = async (id) => {
+      let acompanhamentos = await this.cicloReproducaoRepository.obterAtivoPorFemea(id);
 
       return acompanhamentos;
    }
