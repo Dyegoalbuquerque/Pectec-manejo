@@ -10,8 +10,8 @@ export class CicloReproducao {
     dataFecundacao;
     dataPartoPrevisao;
     dataPartoReal;
-    dataApartarPrevisao;
-    dataApartarReal;
+    dataDesmamePrevisao;
+    dataDesmameReal;
     dataFinalIDC;
     dataFinalIdcPrevisao;
     ativo;
@@ -22,15 +22,17 @@ export class CicloReproducao {
     quantidadeFilhoteNM;
     quantidadeFilhoteMF;
     pesoFilhoteNascimento;
-    pesoFilhoteApartar;
+    pesoTodosFilhotesNascimento;
+    pesoFilhoteDesmamado;
+    pesoTodosFilhotesDesmamado;
     quantidadeFilhoteMorto;
     quantidadeSexoM;
     quantidadeSexoF;
     quantidadeDoado;
     quantidadeAdotado;
     numeroFemeaAdocao;
-    quantidadeApartado;
-    valorApartado;
+    quantidadeDesmamado;
+    valorDesmamado;
 
     existeDataParto() {
         return this.dataPartoReal ? true : false;
@@ -44,8 +46,8 @@ export class CicloReproducao {
         return this.dataPartoReal != cicloAtual.dataPartoReal;
     }
 
-    alterouDataApartar(cicloAtual) {
-        return this.dataApartarReal != cicloAtual.dataApartarReal;
+    alterouDataDesmame(cicloAtual) {
+        return this.dataDesmameReal != cicloAtual.dataDesmameReal;
     }
 
     alterouEstado(cicloAtual) {
@@ -65,14 +67,14 @@ export class CicloReproducao {
 
         this.dataFecundacao = new Date(this.dataFecundacao);
         let totalDiasAteParto = this.dataFecundacao.getDate() + diasGestacao - 1;
-        let totalDiasAteApartar = totalDiasAteParto + diasLactacao;
-        let totalDiasAteIDC = totalDiasAteApartar + diasIDCPrevisao;
+        let totalDiasAteDesmamar = totalDiasAteParto + diasLactacao;
+        let totalDiasAteIDC = totalDiasAteDesmamar + diasIDCPrevisao;
 
         this.dataPartoPrevisao = new Date(this.dataFecundacao);
         this.dataPartoPrevisao.setDate(totalDiasAteParto);
 
-        this.dataApartarPrevisao = new Date(this.dataFecundacao);
-        this.dataApartarPrevisao.setDate(totalDiasAteApartar);
+        this.dataDesmamePrevisao = new Date(this.dataFecundacao);
+        this.dataDesmamePrevisao.setDate(totalDiasAteDesmamar);
 
         this.dataFinalIdcPrevisao = new Date(this.dataFecundacao);
         this.dataFinalIdcPrevisao.setDate(totalDiasAteIDC);
@@ -88,7 +90,7 @@ export class CicloReproducao {
 
         diasGestacao = !this.dataPartoReal ? diasGestacao : dias;
 
-        if (this.dataApartarReal) {
+        if (this.dataDesmameReal) {
             this.ativo = false;
         }
 
@@ -113,9 +115,9 @@ export class CicloReproducao {
         let adotados = this.quantidadeAdotado ? this.quantidadeAdotado : 0;
         let doados = this.quantidadeDoado ? this.quantidadeDoado : 0;
         let mortos = this.quantidadeFilhoteMorto ? this.quantidadeFilhoteMorto : 0;
-        let apartados = this.quantidadeApartado ? this.quantidadeApartado : 0;
+        let desmamados = this.quantidadeDesmamado ? this.quantidadeDesmamado : 0;
 
-        let quantidade = (vivos + adotados) - (mortos + doados + apartados);
+        let quantidade = (vivos + adotados) - (mortos + doados + desmamados);
 
         return quantidade;
     }
