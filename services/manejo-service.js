@@ -6,14 +6,13 @@ import { ProgramaRepository } from '../repositorys/programa-repository';
 import { ProgramaItemRepository } from '../repositorys/programaItem-repository';
 import { SubcategoriaRepository } from '../repositorys/subCategoria-repository';
 import { CausaObitoRepository } from '../repositorys/causaObito-repository';
-import { LoteRepository } from '../repositorys/lote-repository';
 import { ManejoDto } from '../dtos/manejoDto';
 
 export class ManejoService {
 
    constructor(container) {
       this.animalRepository = container.get(AnimalRepository);
-      this.acompanhamentoRepository = container.get(CicloReproducaoRepository);
+      this.cicloReproducaoRepository = container.get(CicloReproducaoRepository);
       this.programaRepository = container.get(ProgramaRepository);
       this.programaItemRepository = container.get(ProgramaItemRepository);
       this.situacaoRepository = container.get(SituacaoRepository);
@@ -21,22 +20,21 @@ export class ManejoService {
       this.subcategoriaRepository = container.get(SubcategoriaRepository);
       this.causaObitoRepository = container.get(CausaObitoRepository);
       this.manejoDto = container.get(ManejoDto);
-      this.loteRepository = container.get(LoteRepository);
    }
 
    obterCiclosRepdorucaoPorAno = async (ano) => {
-      let femeas = await this.animalRepository.obterPorSexo("F");
+      let femeas = await this.animalRepository.obterFemeasAtivas();
 
       for (let i = 0; i < femeas.length; i++) {
          let item = femeas[i];
-         item.acompanhamentos = await this.acompanhamentoRepository.obterPorFemea(item.id);
+         item.acompanhamentos = await this.cicloReproducaoRepository.obterPorFemea(item.id);
       }
 
       return femeas;
    }
 
    obterCicloReproducaoPorAnimal = async (id) => {
-      let acompanhamentos = await this.acompanhamentoRepository.obterPorFemea(id);
+      let acompanhamentos = await this.cicloReproducaoRepository.obterPorFemea(id);
 
       return acompanhamentos;
    }
@@ -45,12 +43,12 @@ export class ManejoService {
 
       if (!item.id) {
 
-         let acompanhamentos = await this.acompanhamentoRepository.obterPorFemea(item.femeaId);
+         let acompanhamentos = await this.cicloReproducaoRepository.obterPorFemea(item.femeaId);
 
          for (let i = 0; i < acompanhamentos.length; i++) {
             let acompanhamento = acompanhamentos[i];
             acompanhamento.ativo = false;
-            await this.acompanhamentoRepository.atualizar(acompanhamento);
+            await this.cicloReproducaoRepository.atualizar(acompanhamento);
          }
 
          let animal = await this.animalRepository.obterPorId(item.femeaId);
@@ -58,7 +56,7 @@ export class ManejoService {
 
          item.programarCiclo(especie);
 
-         let id = await this.acompanhamentoRepository.salvar(item);
+         let id = await this.cicloReproducaoRepository.salvar(item);
 
          return id;
       }
@@ -66,16 +64,16 @@ export class ManejoService {
 
    atualizarCicloReproducao = async (item) => {
 
-      let acompanhamento = await this.acompanhamentoRepository.obterPorId(item.id);
+      let acompanhamento = await this.cicloReproducaoRepository.obterPorId(item.id);
 
       if (item.alterouDataFecundacao(acompanhamento)) {
 
-         let acompanhamentos = await this.acompanhamentoRepository.obterPorFemea(item.femeaId);
+         let acompanhamentos = await this.cicloReproducaoRepository.obterPorFemea(item.femeaId);
 
          for (let i = 0; i < acompanhamentos.length; i++) {
             let acompanhamento = acompanhamentos[i];
             acompanhamento.ativo = false;
-            await this.acompanhamentoRepository.atualizar(acompanhamento);
+            await this.cicloReproducaoRepository.atualizar(acompanhamento);
          }
       }
 
@@ -87,15 +85,9 @@ export class ManejoService {
          item.programarCiclo(especie);
       }
 
-      let result = await this.acompanhamentoRepository.atualizar(item);
+      let result = await this.cicloReproducaoRepository.atualizar(item);
 
       return result;
-   }
-
-   obterLotesVenda = async (tipo) => {
-         let result = await this.loteRepository.obterLotesDisponiveis(tipo);
-   
-         return this.manejoDto.montarLoteVenda(result);
    }
 
    obterAnimalPorId = async (id) => {
@@ -104,13 +96,14 @@ export class ManejoService {
       return result;
    }
 
-   obterAnimalPorSituacao = async (situacoes)=> {;
+   obterAnimalPorSituacao = async (situacoes) => {
+      ;
       let result = await this.animalRepository.obterPorSituacao(situacoes);
 
       return result;
    }
 
-   obterReprodutores = async ()=>  {
+   obterReprodutores = async () => {
       let result = await this.animalRepository.obterPorSexoSituacao("M", "RP");
 
       return result;
@@ -122,7 +115,7 @@ export class ManejoService {
       return result;
    }
 
-   obterPrograma =  async (tipoProgramaId)=>  {
+   obterPrograma = async (tipoProgramaId) => {
       let programa = await this.programaRepository.obterPorTipo(tipoProgramaId);
 
       if (programa.id) {
@@ -164,12 +157,12 @@ export class ManejoService {
 
       if (femea.dataObito != item.dataObito) {
 
-         let acompanhamentos = await this.acompanhamentoRepository.obterPorFemea(item.id);
+         let acompanhamentos = await this.cicloReproducaoRepository.obterPorFemea(item.id);
 
          for (let i = 0; i < acompanhamentos.length; i++) {
             let acompanhamento = acompanhamentos[i];
             acompanhamento.ativo = false;
-            await this.acompanhamentoRepository.atualizar(acompanhamento);
+            await this.cicloReproducaoRepository.atualizar(acompanhamento);
          }
       }
 
@@ -202,7 +195,7 @@ export class ManejoService {
       return itens;
    }
 
-   salvarProgramaItem = async (item) =>  {
+   salvarProgramaItem = async (item) => {
 
       let id = await this.programaItemRepository.salvar(item);
       item.id = id;
@@ -217,7 +210,7 @@ export class ManejoService {
       return item;
    }
 
-   obterSituacoesQuantidades = async (setor) =>  {
+   obterSituacoesQuantidades = async (setor) => {
 
       let situacoes = await this.situacaoRepository.obterPorSetor(setor);
 
@@ -247,5 +240,47 @@ export class ManejoService {
       let situacoes = await this.situacaoRepository.obterPorSetor(setor);
 
       return situacoes;
+   }
+
+   obterRelatorioUpl = async () => {
+
+      let femeasAtivas = await this.animalRepository.obterFemeasAtivas();
+      let todosCiclos = await this.cicloReproducaoRepository.obterTodos();
+      let reprodutores = await this.obterReprodutores();
+
+      let quantidadeTotalMatriz = femeasAtivas.length;
+      let quantidadeTotalReprodutor = reprodutores.length;
+      let quantidadeTotalMarra = femeasAtivas.filter(f => f.situacao == 'M').length;
+      let quantidadeTotalGestacao = femeasAtivas.filter(f => f.situacao == 'G').length;
+      let quantidadeTotalLactacao = femeasAtivas.filter(f => f.situacao == 'L').length;
+      let quantidadeTotalConfirmacaoGestacao = femeasAtivas.filter(f => f.situacao == 'CG').length;
+      let quantidadeTotalIDC = femeasAtivas.filter(f => f.situacao == 'IDC').length;
+
+      let resumoAnimais = {
+         quantidadeTotalMatriz, quantidadeTotalReprodutor, quantidadeTotalMarra, 
+         quantidadeTotalGestacao, quantidadeTotalLactacao, quantidadeTotalConfirmacaoGestacao,
+         quantidadeTotalIDC
+      };
+
+      let quantidadeTotalLeitaoVivo = 0;
+      let nlnMedioGeral = 0;
+      let nldMedioGeral = 0;
+      let plnMedioGeral = 0;
+      let pmlnMedioGeral = 0;
+      let pldMedioGeral = 0;
+      let pmldMedioGeral = 0;
+
+      todosCiclos.forEach(c => {
+         quantidadeTotalLeitaoVivo += c.calcularQuantidadeFilhotesAtual();
+
+      });
+
+      let resumoCiclos = {
+         quantidadeTotalLeitaoVivo, nlnMedioGeral, nldMedioGeral, 
+         plnMedioGeral, pmlnMedioGeral, pldMedioGeral,
+         pmldMedioGeral
+      };
+
+      return this.manejoDto.montarRelatorioUpl(resumoAnimais, resumoCiclos);
    }
 }

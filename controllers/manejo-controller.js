@@ -1,5 +1,4 @@
 
-import { Constantes } from '../constantes';
 import { plainToClass } from "class-transformer";
 import { ManejoService } from '../services/manejo-service';
 import { BaseController } from './base-controller';
@@ -19,17 +18,6 @@ export class ManejoController extends BaseController {
          let data = await this.manejoService.simularCiclo(req.body);
          return res.status(200).json(data);
 
-      } catch (e) {
-         return this.tratarErro(e, res);
-      }
-   }
-
-   obterLotesVenda = async (req, res) => {
-      try {
-         let tipo = req.query.tipo;
-         let data = await this.manejoService.obterLotesVenda(tipo);
-
-         return res.status(200).json(data);
       } catch (e) {
          return this.tratarErro(e, res);
       }
@@ -269,6 +257,17 @@ export class ManejoController extends BaseController {
       try {
          let especieId = req.body;
          let data = await this.manejoService.atualizarSituacoes(especieId.especieId);
+         return res.status(200).json(data);
+
+      } catch (e) {
+         return this.tratarErro(e, res);
+      }
+   }
+
+   obterRelatorioUpl = async (req, res) => {
+
+      try {
+         let data = await this.manejoService.obterRelatorioUpl();
          return res.status(200).json(data);
 
       } catch (e) {

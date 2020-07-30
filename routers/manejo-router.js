@@ -24,8 +24,6 @@ router.post('/animal/ciclo-reproducao', manejoController.salvarCicloReproducao);
 
 router.put('/animal/ciclo-reproducao', manejoController.atualizarCicloReproducao);
 
-router.get('/lote', manejoController.obterLotesVenda);
-
 router.get('/reprodutores', manejoController.obterReprodutores);
 
 router.get('/programa', manejoController.obterPrograma);
@@ -47,5 +45,7 @@ router.get('/situacoes', manejoController.obterSituacoes);
 router.put('/situacoes', manejoController.atualizarSituacoes);
 
 router.get('/causa-obitos', manejoController.obterCausaObitos);
+
+router.get('/relatorios/upl', manejoController.obterRelatorioUpl);
 
 export default router;

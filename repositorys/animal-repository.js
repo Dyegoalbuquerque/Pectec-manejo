@@ -33,12 +33,12 @@ export class AnimalRepository extends Repository{
         return result.length;
     }
 
-    async obterPorSexo(sexo) {
+    async obterFemeasAtivas() {
         let result = this.dao.obterTodos();
 
         let situacoes = ["G", "L", "CG", "IDC", "M"];
 
-        result = result.filter(a => a.sexo == sexo && situacoes.includes(a.situacao));
+        result = result.filter(a => a.sexo == 'F' && situacoes.includes(a.situacao));
 
         return result;
     }
