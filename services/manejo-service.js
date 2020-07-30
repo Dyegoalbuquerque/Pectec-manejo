@@ -242,10 +242,10 @@ export class ManejoService {
       return situacoes;
    }
 
-   obterRelatorioUpl = async () => {
+   obterRelatorioUpl = async (dataInicial, dataFinal) => {
 
       let femeasAtivas = await this.animalRepository.obterFemeasAtivas();
-      let todosCiclos = await this.cicloReproducaoRepository.obterTodos();
+      let todosCiclos = await this.cicloReproducaoRepository.obterPorIntervalo(dataInicial, dataFinal);
       let reprodutores = await this.obterReprodutores();
 
       let quantidadeTotalMatriz = femeasAtivas.length;
@@ -256,27 +256,49 @@ export class ManejoService {
       let quantidadeTotalConfirmacaoGestacao = femeasAtivas.filter(f => f.situacao == 'CG').length;
       let quantidadeTotalIDC = femeasAtivas.filter(f => f.situacao == 'IDC').length;
 
+      let quantidadeCiclosEfetivos = todosCiclos.reduce((sum, ciclo) => {
+         return sum + (ciclo.quantidadeFilhote ? 1 : 0);
+      }, 0);
+
+      let quantidadeTotalLeitaoVivo = todosCiclos.reduce((sum, ciclo) => {
+         return sum + ciclo.calcularQuantidadeFilhotesAtual();
+      }, 0);
+
+      let nlnMedioGeral = todosCiclos.reduce((sum, ciclo) => {
+         return sum + (ciclo.quantidadeFilhoteVV ? ciclo.quantidadeFilhoteVV : 0);
+      }, 0) / quantidadeCiclosEfetivos;
+
+      nlnMedioGeral = parseFloat(nlnMedioGeral).toFixed(2);
+
+      let nldMedioGeral = todosCiclos.reduce((sum, ciclo) => {
+         return sum + (ciclo.quantidadeApartado ? ciclo.quantidadeApartado : 0);
+      }, 0) / quantidadeCiclosEfetivos;
+
+      nldMedioGeral = parseFloat(nldMedioGeral).toFixed(2);
+
+      let pmlnMedioGeral = todosCiclos.reduce((sum, ciclo) => {
+         return sum + (ciclo.pesoFilhoteNascimento ? ciclo.pesoFilhoteNascimento : 0);
+      }, 0) / quantidadeCiclosEfetivos;
+
+      pmlnMedioGeral = parseFloat(pmlnMedioGeral).toFixed(2);
+
+      let pmldMedioGeral = todosCiclos.reduce((sum, ciclo) => {
+         return sum + (ciclo.pesoFilhoteApartar ? ciclo.pesoFilhoteApartar : 0);
+      }, 0) / quantidadeCiclosEfetivos;
+
+      pmldMedioGeral = parseFloat(pmldMedioGeral).toFixed(2);
+
+      let plnMedioGeral = 0;
+      let pldMedioGeral = 0;
+
       let resumoAnimais = {
-         quantidadeTotalMatriz, quantidadeTotalReprodutor, quantidadeTotalMarra, 
+         quantidadeTotalMatriz, quantidadeTotalReprodutor, quantidadeTotalMarra,
          quantidadeTotalGestacao, quantidadeTotalLactacao, quantidadeTotalConfirmacaoGestacao,
          quantidadeTotalIDC
       };
 
-      let quantidadeTotalLeitaoVivo = 0;
-      let nlnMedioGeral = 0;
-      let nldMedioGeral = 0;
-      let plnMedioGeral = 0;
-      let pmlnMedioGeral = 0;
-      let pldMedioGeral = 0;
-      let pmldMedioGeral = 0;
-
-      todosCiclos.forEach(c => {
-         quantidadeTotalLeitaoVivo += c.calcularQuantidadeFilhotesAtual();
-
-      });
-
       let resumoCiclos = {
-         quantidadeTotalLeitaoVivo, nlnMedioGeral, nldMedioGeral, 
+         quantidadeTotalLeitaoVivo, nlnMedioGeral, nldMedioGeral,
          plnMedioGeral, pmlnMedioGeral, pldMedioGeral,
          pmldMedioGeral
       };

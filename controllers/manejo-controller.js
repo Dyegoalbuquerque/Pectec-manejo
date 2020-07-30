@@ -267,7 +267,9 @@ export class ManejoController extends BaseController {
    obterRelatorioUpl = async (req, res) => {
 
       try {
-         let data = await this.manejoService.obterRelatorioUpl();
+         let dataInicial = req.query.dataInicial;
+         let dataFinal = req.query.dataFinal;
+         let data = await this.manejoService.obterRelatorioUpl(dataInicial, dataFinal);
          return res.status(200).json(data);
 
       } catch (e) {
