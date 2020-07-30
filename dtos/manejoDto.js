@@ -36,23 +36,25 @@ export class ManejoDto {
         return itens;
     }
 
-    montarRelatorioUpl(resumoAnimais, resumoCiclos) {
+    montarRelatorioUpl(resumoRelatorio, dataInicial, dataFinal) {
 
         return {
-            quantidadeTotalMatriz: resumoAnimais.quantidadeTotalMatriz,
-            quantidadeTotalReprodutor: resumoAnimais.quantidadeTotalReprodutor,
-            quantidadeTotalMarra: resumoAnimais.quantidadeTotalMarra,
-            quantidadeTotalGestacao: resumoAnimais.quantidadeTotalGestacao,
-            quantidadeTotalLactacao: resumoAnimais.quantidadeTotalLactacao,
-            quantidadeTotalConfirmacaoGestacao: resumoAnimais.quantidadeTotalConfirmacaoGestacao,
-            quantidadeTotalIDC: resumoAnimais.quantidadeTotalIDC,
-            quantidadeTotalLeitaoVivo: resumoCiclos.quantidadeTotalLeitaoVivo,
-            nlnMedioGeral: resumoCiclos.nlnMedioGeral,
-            nldMedioGeral: resumoCiclos.nldMedioGeral,
-            plnMedioGeral: resumoCiclos.plnMedioGeral,
-            pmlnMedioGeral: resumoCiclos.pmlnMedioGeral,
-            pldMedioGeral: resumoCiclos.pldMedioGeral,
-            pmldMedioGeral: resumoCiclos.pmldMedioGeral
+            quantidadeTotalMatriz: resumoRelatorio.quantidadeTotalMatriz,
+            quantidadeTotalReprodutor: resumoRelatorio.quantidadeTotalReprodutor,
+            quantidadeTotalMarra: resumoRelatorio.quantidadeTotalMarra,
+            quantidadeTotalGestacao: resumoRelatorio.quantidadeTotalGestacao,
+            quantidadeTotalLactacao: resumoRelatorio.quantidadeTotalLactacao,
+            quantidadeTotalConfirmacaoGestacao: resumoRelatorio.quantidadeTotalConfirmacaoGestacao,
+            quantidadeTotalIDC: resumoRelatorio.quantidadeTotalIDC,
+            quantidadeTotalLeitaoVivo: resumoRelatorio.quantidadeTotalLeitaoVivo,
+            nlnMedioGeral: resumoRelatorio.nlnMedioGeral,
+            nldMedioGeral: resumoRelatorio.nldMedioGeral,
+            plnMedioGeral: resumoRelatorio.plnMedioGeral,
+            pmlnMedioGeral: resumoRelatorio.pmlnMedioGeral,
+            pldMedioGeral: resumoRelatorio.pldMedioGeral,
+            pmldMedioGeral: resumoRelatorio.pmldMedioGeral,
+            dataInicial: dataInicial,
+            dataFinal: dataFinal
         }
     }
 }

@@ -260,6 +260,8 @@ export class ManejoService {
          return sum + (ciclo.quantidadeFilhote ? 1 : 0);
       }, 0);
 
+      quantidadeCiclosEfetivos = !quantidadeCiclosEfetivos ? 1 : quantidadeCiclosEfetivos;
+
       let quantidadeTotalLeitaoVivo = todosCiclos.reduce((sum, ciclo) => {
          return sum + ciclo.calcularQuantidadeFilhotesAtual();
       }, 0);
@@ -291,18 +293,14 @@ export class ManejoService {
       let plnMedioGeral = 0;
       let pldMedioGeral = 0;
 
-      let resumoAnimais = {
-         quantidadeTotalMatriz, quantidadeTotalReprodutor, quantidadeTotalMarra,
-         quantidadeTotalGestacao, quantidadeTotalLactacao, quantidadeTotalConfirmacaoGestacao,
-         quantidadeTotalIDC
-      };
-
-      let resumoCiclos = {
+      let resumoRelatorio = {
          quantidadeTotalLeitaoVivo, nlnMedioGeral, nldMedioGeral,
          plnMedioGeral, pmlnMedioGeral, pldMedioGeral,
-         pmldMedioGeral
+         pmldMedioGeral, quantidadeTotalIDC,
+         quantidadeTotalMatriz, quantidadeTotalReprodutor, quantidadeTotalMarra,
+         quantidadeTotalGestacao, quantidadeTotalLactacao, quantidadeTotalConfirmacaoGestacao
       };
 
-      return this.manejoDto.montarRelatorioUpl(resumoAnimais, resumoCiclos);
+      return this.manejoDto.montarRelatorioUpl(resumoRelatorio, dataInicial, dataFinal);
    }
 }
