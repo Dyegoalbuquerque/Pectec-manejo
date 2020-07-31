@@ -43,12 +43,12 @@ export class ManejoService {
 
       if (!item.id) {
 
-         let acompanhamentos = await this.cicloReproducaoRepository.obterPorFemea(item.femeaId);
+         let ciclos = await this.cicloReproducaoRepository.obterPorFemea(item.femeaId);
 
-         for (let i = 0; i < acompanhamentos.length; i++) {
-            let acompanhamento = acompanhamentos[i];
-            acompanhamento.ativo = false;
-            await this.cicloReproducaoRepository.atualizar(acompanhamento);
+         for (let i = 0; i < ciclos.length; i++) {
+            let ciclo = ciclos[i];
+            ciclo.ativo = false;
+            await this.cicloReproducaoRepository.atualizar(ciclo);
          }
 
          let animal = await this.animalRepository.obterPorId(item.femeaId);
@@ -64,22 +64,22 @@ export class ManejoService {
 
    atualizarCicloReproducao = async (item) => {
 
-      let acompanhamento = await this.cicloReproducaoRepository.obterPorId(item.id);
+      let ciclo = await this.cicloReproducaoRepository.obterPorId(item.id);
 
-      if (item.alterouDataFecundacao(acompanhamento)) {
+      if (item.alterouDataFecundacao(ciclo)) {
 
-         let acompanhamentos = await this.cicloReproducaoRepository.obterPorFemea(item.femeaId);
+         let ciclosConsultados = await this.cicloReproducaoRepository.obterPorFemea(item.femeaId);
 
-         for (let i = 0; i < acompanhamentos.length; i++) {
-            let acompanhamento = acompanhamentos[i];
-            acompanhamento.ativo = false;
-            await this.cicloReproducaoRepository.atualizar(acompanhamento);
+         for (let i = 0; i < ciclosConsultados.length; i++) {
+            let ciclo = ciclosConsultados[i];
+            ciclo.ativo = false;
+            await this.cicloReproducaoRepository.atualizar(ciclo);
          }
       }
 
       let mae = await this.animalRepository.obterPorId(item.femeaId);
 
-      if (item.alterouEstado(acompanhamento)) {
+      if (item.alterouEstado(ciclo)) {
          let especie = await this.especieRepository.obterPorId(mae.especieId);
 
          item.programarCiclo(especie);
@@ -273,7 +273,7 @@ export class ManejoService {
       nlnMedioGeral = parseFloat(nlnMedioGeral).toFixed(2);
 
       let nldMedioGeral = todosCiclos.reduce((sum, ciclo) => {
-         return sum + (ciclo.quantidadeApartado ? ciclo.quantidadeApartado : 0);
+         return sum + (ciclo.quantidadeDesmamado ? ciclo.quantidadeDesmamado : 0);
       }, 0) / quantidadeCiclosEfetivos;
 
       nldMedioGeral = parseFloat(nldMedioGeral).toFixed(2);
@@ -285,7 +285,7 @@ export class ManejoService {
       pmlnMedioGeral = parseFloat(pmlnMedioGeral).toFixed(2);
 
       let pmldMedioGeral = todosCiclos.reduce((sum, ciclo) => {
-         return sum + (ciclo.pesoFilhoteApartar ? ciclo.pesoFilhoteApartar : 0);
+         return sum + (ciclo.pesoFilhoteDesmamado ? ciclo.pesoFilhoteDesmamado : 0);
       }, 0) / quantidadeCiclosEfetivos;
 
       pmldMedioGeral = parseFloat(pmldMedioGeral).toFixed(2);
