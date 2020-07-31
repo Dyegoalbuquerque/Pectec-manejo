@@ -256,11 +256,15 @@ export class ManejoService {
       let quantidadeTotalConfirmacaoGestacao = femeasAtivas.filter(f => f.situacao == 'CG').length;
       let quantidadeTotalIDC = femeasAtivas.filter(f => f.situacao == 'IDC').length;
 
-      let quantidadeCiclosEfetivos = todosCiclos.reduce((sum, ciclo) => {
-         return sum + (ciclo.quantidadeFilhote ? 1 : 0);
+      let quantidadeCiclosNascidos = todosCiclos.reduce((sum, ciclo) => {
+         return sum + (ciclo.dataPartoReal ? 1 : 0);
       }, 0);
 
-      quantidadeCiclosEfetivos = !quantidadeCiclosEfetivos ? 1 : quantidadeCiclosEfetivos;
+      let quantidadeCiclosDesmamados = todosCiclos.reduce((sum, ciclo) => {
+         return sum + (ciclo.dataDesmameReal ? 1 : 0);
+      }, 0);
+
+      quantidadeCiclosNascidos = !quantidadeCiclosNascidos ? 1 : quantidadeCiclosNascidos;
 
       let quantidadeTotalLeitaoVivo = todosCiclos.reduce((sum, ciclo) => {
          return sum + ciclo.calcularQuantidadeFilhotesAtual();
@@ -268,25 +272,25 @@ export class ManejoService {
 
       let nlnMedioGeral = todosCiclos.reduce((sum, ciclo) => {
          return sum + (ciclo.quantidadeFilhoteVV ? ciclo.quantidadeFilhoteVV : 0);
-      }, 0) / quantidadeCiclosEfetivos;
+      }, 0) / quantidadeCiclosNascidos;
 
       nlnMedioGeral = parseFloat(nlnMedioGeral).toFixed(2);
 
       let nldMedioGeral = todosCiclos.reduce((sum, ciclo) => {
          return sum + (ciclo.quantidadeDesmamado ? ciclo.quantidadeDesmamado : 0);
-      }, 0) / quantidadeCiclosEfetivos;
+      }, 0) / quantidadeCiclosDesmamados;
 
       nldMedioGeral = parseFloat(nldMedioGeral).toFixed(2);
 
       let pmlnMedioGeral = todosCiclos.reduce((sum, ciclo) => {
          return sum + (ciclo.pesoFilhoteNascimento ? ciclo.pesoFilhoteNascimento : 0);
-      }, 0) / quantidadeCiclosEfetivos;
+      }, 0) / quantidadeCiclosNascidos;
 
       pmlnMedioGeral = parseFloat(pmlnMedioGeral).toFixed(2);
 
       let pmldMedioGeral = todosCiclos.reduce((sum, ciclo) => {
          return sum + (ciclo.pesoFilhoteDesmamado ? ciclo.pesoFilhoteDesmamado : 0);
-      }, 0) / quantidadeCiclosEfetivos;
+      }, 0) / quantidadeCiclosDesmamados;
 
       pmldMedioGeral = parseFloat(pmldMedioGeral).toFixed(2);
 
