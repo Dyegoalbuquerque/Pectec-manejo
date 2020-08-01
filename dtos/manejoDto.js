@@ -53,6 +53,7 @@ export class ManejoDto {
             pmlnMedioGeral: resumoRelatorio.pmlnMedioGeral,
             pldMedioGeral: resumoRelatorio.pldMedioGeral,
             pmldMedioGeral: resumoRelatorio.pmldMedioGeral,
+            taxaMortalidade: resumoRelatorio.taxaMortalidade,
             dataInicial: dataInicial,
             dataFinal: dataFinal
         }

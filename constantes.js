@@ -7,20 +7,4 @@ export class Constantes{
     static SexoFeminino(){
         return `F`;
     }
-
-    static TipoEventoSaidaConsumoRacao(){
-        return `SCR`;
-    }
-
-    static TipoEventoSaidaConsumoInsumo(){
-        return `SCI`;
-    }
-
-    static TipoEventoSaidaConsumoMedicamento(){
-        return `SCM`;
-    }
-
-    static TipoEventoSaidaVendaRacao(){
-        return `SVR`;
-    }
 }

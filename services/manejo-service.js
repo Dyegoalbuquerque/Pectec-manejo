@@ -7,6 +7,8 @@ import { ProgramaItemRepository } from '../repositorys/programaItem-repository';
 import { SubcategoriaRepository } from '../repositorys/subCategoria-repository';
 import { CausaObitoRepository } from '../repositorys/causaObito-repository';
 import { ManejoDto } from '../dtos/manejoDto';
+import { IndiceCicloReproducao } from './upl/indiceCicloReproducao';
+import { IndiceAnimal } from './geral/indiceAnimal';
 
 export class ManejoService {
 
@@ -250,49 +252,20 @@ export class ManejoService {
 
       let quantidadeTotalMatriz = femeasAtivas.length;
       let quantidadeTotalReprodutor = reprodutores.length;
-      let quantidadeTotalMarra = femeasAtivas.filter(f => f.situacao == 'M').length;
-      let quantidadeTotalGestacao = femeasAtivas.filter(f => f.situacao == 'G').length;
-      let quantidadeTotalLactacao = femeasAtivas.filter(f => f.situacao == 'L').length;
-      let quantidadeTotalConfirmacaoGestacao = femeasAtivas.filter(f => f.situacao == 'CG').length;
-      let quantidadeTotalIDC = femeasAtivas.filter(f => f.situacao == 'IDC').length;
+      let quantidadeTotalMarra = IndiceAnimal.obterQuantidadeMarra(femeasAtivas);
+      let quantidadeTotalGestacao = IndiceAnimal.obterQuantidadeGestacao(femeasAtivas);
+      let quantidadeTotalLactacao = IndiceAnimal.obterQuantidadeLactacao(femeasAtivas);
+      let quantidadeTotalConfirmacaoGestacao = IndiceAnimal.obterQuantidadeConfirmacaoGestacao(femeasAtivas);
+      let quantidadeTotalIDC = IndiceAnimal.obterQuantidadeIDC(femeasAtivas);
 
-      let quantidadeCiclosNascidos = todosCiclos.reduce((sum, ciclo) => {
-         return sum + (ciclo.dataPartoReal ? 1 : 0);
-      }, 0);
-
-      let quantidadeCiclosDesmamados = todosCiclos.reduce((sum, ciclo) => {
-         return sum + (ciclo.dataDesmameReal ? 1 : 0);
-      }, 0);
-
-      quantidadeCiclosNascidos = !quantidadeCiclosNascidos ? 1 : quantidadeCiclosNascidos;
-
-      let quantidadeTotalLeitaoVivo = todosCiclos.reduce((sum, ciclo) => {
-         return sum + ciclo.calcularQuantidadeFilhotesAtual();
-      }, 0);
-
-      let nlnMedioGeral = todosCiclos.reduce((sum, ciclo) => {
-         return sum + (ciclo.quantidadeFilhoteVV ? ciclo.quantidadeFilhoteVV : 0);
-      }, 0) / quantidadeCiclosNascidos;
-
-      nlnMedioGeral = parseFloat(nlnMedioGeral).toFixed(2);
-
-      let nldMedioGeral = todosCiclos.reduce((sum, ciclo) => {
-         return sum + (ciclo.quantidadeDesmamado ? ciclo.quantidadeDesmamado : 0);
-      }, 0) / quantidadeCiclosDesmamados;
-
-      nldMedioGeral = parseFloat(nldMedioGeral).toFixed(2);
-
-      let pmlnMedioGeral = todosCiclos.reduce((sum, ciclo) => {
-         return sum + (ciclo.pesoFilhoteNascimento ? ciclo.pesoFilhoteNascimento : 0);
-      }, 0) / quantidadeCiclosNascidos;
-
-      pmlnMedioGeral = parseFloat(pmlnMedioGeral).toFixed(2);
-
-      let pmldMedioGeral = todosCiclos.reduce((sum, ciclo) => {
-         return sum + (ciclo.pesoFilhoteDesmamado ? ciclo.pesoFilhoteDesmamado : 0);
-      }, 0) / quantidadeCiclosDesmamados;
-
-      pmldMedioGeral = parseFloat(pmldMedioGeral).toFixed(2);
+      let quantidadeCiclosNascidos = IndiceCicloReproducao.obterQuantidadeCiclosNascidos(todosCiclos);
+      let quantidadeCiclosDesmamados = IndiceCicloReproducao.obterQuantidadeCiclosDesmamados(todosCiclos);
+      let quantidadeTotalLeitaoVivo = IndiceCicloReproducao.obterQuantidadeLeitoesVivos(todosCiclos);
+      let nlnMedioGeral = IndiceCicloReproducao.obterNLN(todosCiclos, quantidadeCiclosNascidos);
+      let nldMedioGeral = IndiceCicloReproducao.obterNLD(todosCiclos, quantidadeCiclosDesmamados);
+      let pmlnMedioGeral = IndiceCicloReproducao.obterPMLN(todosCiclos, quantidadeCiclosNascidos);
+      let pmldMedioGeral = IndiceCicloReproducao.obterPMLD(todosCiclos, quantidadeCiclosDesmamados);
+      let taxaMortalidade = IndiceCicloReproducao.obterTaxaMortalidade(todosCiclos);
 
       let plnMedioGeral = 0;
       let pldMedioGeral = 0;
@@ -300,7 +273,7 @@ export class ManejoService {
       let resumoRelatorio = {
          quantidadeTotalLeitaoVivo, nlnMedioGeral, nldMedioGeral,
          plnMedioGeral, pmlnMedioGeral, pldMedioGeral,
-         pmldMedioGeral, quantidadeTotalIDC,
+         pmldMedioGeral, quantidadeTotalIDC, taxaMortalidade,
          quantidadeTotalMatriz, quantidadeTotalReprodutor, quantidadeTotalMarra,
          quantidadeTotalGestacao, quantidadeTotalLactacao, quantidadeTotalConfirmacaoGestacao
       };
