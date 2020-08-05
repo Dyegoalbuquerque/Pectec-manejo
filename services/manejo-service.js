@@ -106,7 +106,7 @@ export class ManejoService {
    }
 
    obterReprodutores = async () => {
-      let result = await this.animalRepository.obterPorSexoSituacao("M", "RP");
+      let result = await this.animalRepository.obterPorSexoTag("M", "RP");
 
       return result;
    }
