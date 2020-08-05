@@ -30,19 +30,15 @@ router.get('/programa', manejoController.obterPrograma);
 
 router.get('/programa-itens', manejoController.obterProgramaItensPorSituacao);
 
-router.get('/programa', manejoController.obterPrograma);
-
 router.delete('/programa-item/:id', manejoController.removerProgramaItem);
 
 router.put('/programa-item', manejoController.atualizarProgramaItem);
 
 router.post('/programa-item', manejoController.salvarProgramaItem);
 
-router.get('/situacoes-quantidades', manejoController.obterSituacoesQuantidades);
+router.get('/tags-quantidades', manejoController.obterTagsQuantidades);
 
-router.get('/situacoes', manejoController.obterSituacoes);
-
-router.put('/situacoes', manejoController.atualizarSituacoes);
+router.get('/tags', manejoController.obterTags);
 
 router.get('/causa-obitos', manejoController.obterCausaObitos);
 

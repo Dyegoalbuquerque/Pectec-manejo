@@ -34,10 +34,10 @@ export class ManejoController extends BaseController {
       }
    }
 
-   obterAnimalPorSituacao = async (req, res) => {
+   obterAnimalPorTag = async (req, res) => {
       try {
-         let situacoes = req.query.situacoes.replace(':', '');
-         let data = await this.manejoService.obterAnimalPorSituacao(situacoes);
+         let tags = req.query.tags.replace(':', '');
+         let data = await this.manejoService.obterAnimalPorTag(tags);
 
          return res.status(200).json(data);
       } catch (e) {
@@ -67,8 +67,8 @@ export class ManejoController extends BaseController {
 
    obterPrograma = async (req, res) => {
       try {
-         let tipoProgramaId = req.query.tipoProgramaId;
-         let data = await this.manejoService.obterPrograma(parseFloat(tipoProgramaId));
+         let tipoPrograma = req.query.tipoPrograma;
+         let data = await this.manejoService.obterPrograma(tipoPrograma);
 
          return res.status(200).json(data);
       } catch (e) {
@@ -226,12 +226,12 @@ export class ManejoController extends BaseController {
       }
    }
 
-   obterSituacoesQuantidades = async (req, res) => {
+   obterTagsQuantidades = async (req, res) => {
 
       try {
 
          let setor = req.query.setor;
-         let data = await this.manejoService.obterSituacoesQuantidades(setor);
+         let data = await this.manejoService.obterTagsQuantidades(setor);
          return res.status(200).json(data);
 
       } catch (e) {
@@ -239,24 +239,12 @@ export class ManejoController extends BaseController {
       }
    }
 
-   obterSituacoes = async (req, res) => {
+   obterTags = async (req, res) => {
 
       try {
 
          let setor = req.query.setor;
-         let data = await this.manejoService.obterSituacoes(setor);
-         return res.status(200).json(data);
-
-      } catch (e) {
-         return this.tratarErro(e, res);
-      }
-   }
-
-   atualizarSituacoes = async (req, res) => {
-
-      try {
-         let especieId = req.body;
-         let data = await this.manejoService.atualizarSituacoes(especieId.especieId);
+         let data = await this.manejoService.obterTags(setor);
          return res.status(200).json(data);
 
       } catch (e) {

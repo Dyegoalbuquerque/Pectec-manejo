@@ -1,10 +1,10 @@
 import { Repository } from './repository';
-import { Situacao } from '../models/situacao';
+import { Tag } from '../models/tag';
 
-export class SituacaoRepository extends Repository {
+export class TagRepository extends Repository {
 
     constructor() {
-        super(Situacao);
+        super(Tag);
     }
 
     async obterPorSetor(setor) {

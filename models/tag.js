@@ -1,5 +1,5 @@
 
-export class Situacao{
+export class Tag{
 
     constructor() { 
     }

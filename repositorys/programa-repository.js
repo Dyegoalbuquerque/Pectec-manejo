@@ -13,10 +13,10 @@ export class ProgramaRepository extends Repository {
         return todos;
     }
 
-    async obterPorTipo(tipoProgramaId) {
+    async obterPorTipo(tipoPrograma) {
         let todos = this.dao.obterTodos();
 
-        let programas = todos.filter(f => f.tipoProgramaId == tipoProgramaId);
+        let programas = todos.filter(f => f.tipo == tipoPrograma);
 
         return programas.length > 0 ? programas[0] : {};
     }

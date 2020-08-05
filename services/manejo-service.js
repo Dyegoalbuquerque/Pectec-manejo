@@ -1,6 +1,6 @@
 import { AnimalRepository } from '../repositorys/animal-repository';
 import { CicloReproducaoRepository } from '../repositorys/cicloReproducao-repository';
-import { SituacaoRepository } from '../repositorys/situacao-repository';
+import { TagRepository } from '../repositorys/tag-repository';
 import { EspecieRepository } from '../repositorys/especie-repository';
 import { ProgramaRepository } from '../repositorys/programa-repository';
 import { ProgramaItemRepository } from '../repositorys/programaItem-repository';
@@ -17,7 +17,7 @@ export class ManejoService {
       this.cicloReproducaoRepository = container.get(CicloReproducaoRepository);
       this.programaRepository = container.get(ProgramaRepository);
       this.programaItemRepository = container.get(ProgramaItemRepository);
-      this.situacaoRepository = container.get(SituacaoRepository);
+      this.tagRepository = container.get(TagRepository);
       this.especieRepository = container.get(EspecieRepository);
       this.subcategoriaRepository = container.get(SubcategoriaRepository);
       this.causaObitoRepository = container.get(CausaObitoRepository);
@@ -98,9 +98,9 @@ export class ManejoService {
       return result;
    }
 
-   obterAnimalPorSituacao = async (situacoes) => {
+   obterAnimalPorTag = async (situacoes) => {
       ;
-      let result = await this.animalRepository.obterPorSituacao(situacoes);
+      let result = await this.animalRepository.obterPorTag(situacoes);
 
       return result;
    }
@@ -117,8 +117,8 @@ export class ManejoService {
       return result;
    }
 
-   obterPrograma = async (tipoProgramaId) => {
-      let programa = await this.programaRepository.obterPorTipo(tipoProgramaId);
+   obterPrograma = async (tipoPrograma) => {
+      let programa = await this.programaRepository.obterPorTipo(tipoPrograma);
 
       if (programa.id) {
          programa.itens = await this.programaItemRepository.obterPorPrograma(programa.id);
@@ -212,24 +212,24 @@ export class ManejoService {
       return item;
    }
 
-   obterSituacoesQuantidades = async (setor) => {
+   obterTagsQuantidades = async (setor) => {
 
-      let situacoes = await this.situacaoRepository.obterPorSetor(setor);
+      let tags = await this.tagRepository.obterPorSetor(setor);
 
       let animais = await this.animalRepository.obterTodos();
 
       let itens = [];
 
-      for (let i = 0; i < situacoes.length; i++) {
-         let situacao = situacoes[i];
-         let quantidade = animais.filter(a => a.situacao == situacao.sigla).length;
+      for (let i = 0; i < tags.length; i++) {
+         let tag = tags[i];
+         let quantidade = animais.filter(a => a.situacao == tag.sigla).length;
 
          let item = {
-            id: situacao.id,
-            nome: situacao.nome,
+            id: tag.id,
+            nome: tag.nome,
             quantidade: quantidade,
-            sigla: situacao.sigla,
-            descricao: situacao.descricao
+            sigla: tag.sigla,
+            descricao: tag.descricao
          }
 
          itens.push(item);
@@ -238,10 +238,10 @@ export class ManejoService {
       return itens;
    }
 
-   obterSituacoes = async (setor) => {
-      let situacoes = await this.situacaoRepository.obterPorSetor(setor);
+   obterTags = async (setor) => {
+      let tags = await this.tagRepository.obterPorSetor(setor);
 
-      return situacoes;
+      return tags;
    }
 
    obterRelatorioUpl = async (dataInicial, dataFinal) => {

@@ -6,12 +6,9 @@ export class ProgramaItem{
     programaId;
     descricao;
     observacao;
-    inicio;
-    fim;
-    situacaoId;
-    quantidadeDias;
+    tempoOcorrencia;
+    tagId;
     quantidade;
-    unidadeMedida;
     objetivoId;
     objetivo;
 }

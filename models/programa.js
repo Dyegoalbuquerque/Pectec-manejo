@@ -4,7 +4,6 @@ export class Programa {
     }
     id;
     nome;
-    tipoProgramaId;
     dataCadastro;
     itens;
     inativo;

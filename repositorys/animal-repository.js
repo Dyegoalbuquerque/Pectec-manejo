@@ -25,10 +25,10 @@ export class AnimalRepository extends Repository{
         return result;
     }
 
-    async obterQuantidadePorSituacao(situacao) {
+    async obterQuantidadePorTag(tag) {
         let result = this.dao.obterTodos();
 
-        result = result.filter(a => a.situacao == situacao);
+        result = result.filter(a => a.situacao == tag);
 
         return result.length;
     }
@@ -43,10 +43,10 @@ export class AnimalRepository extends Repository{
         return result;
     }
 
-    async obterPorSexoSituacao(sexo, situacao) {
+    async obterPorSexoTag(sexo, tag) {
         let result = this.dao.obterTodos();
 
-        result = result.filter(a => a.situacao == situacao && a.sexo == sexo);
+        result = result.filter(a => a.situacao == tag && a.sexo == sexo);
 
         return result;
     }

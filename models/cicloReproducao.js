@@ -51,7 +51,7 @@ export class CicloReproducao {
     }
 
     alterouEstado(cicloAtual) {
-        return this.alterouDataFecundacao(cicloAtual) || this.alterouDataParto(cicloAtual) || this.alterouDataApartar(cicloAtual);
+        return this.alterouDataFecundacao(cicloAtual) || this.alterouDataParto(cicloAtual) || this.alterouDataDesmame(cicloAtual);
     }
 
     pariu(cicloAtual) {
