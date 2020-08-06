@@ -190,10 +190,10 @@ export class ManejoController extends BaseController {
       }
    }
 
-   obterProgramaItensPorSituacao = async (req, res) => {
+   obterProgramaItensPorTag = async (req, res) => {
       try {
          let situacaoId = req.query.situacaoId;
-         let data = await this.manejoService.obterProgramaItensPorSituacao(parseFloat(situacaoId));
+         let data = await this.manejoService.obterProgramaItensPorTag(parseFloat(situacaoId));
 
          return res.status(200).json(data);
       } catch (e) {
@@ -259,6 +259,18 @@ export class ManejoController extends BaseController {
          let dataFinal = req.query.dataFinal;
          let data = await this.manejoService.obterRelatorioUpl(dataInicial, dataFinal);
          return res.status(200).json(data);
+
+      } catch (e) {
+         return this.tratarErro(e, res);
+      }
+   }
+
+   obterAcontecimentosPorSetor = async (req, res) => {
+      try {
+         let setor = req.query.setor;
+         let data = req.query.data;
+         let dados = await this.manejoService.obterAcontecimentosPorSetor(setor, data);
+         return res.status(200).json(dados);
 
       } catch (e) {
          return this.tratarErro(e, res);

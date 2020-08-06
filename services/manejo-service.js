@@ -6,6 +6,8 @@ import { ProgramaRepository } from '../repositorys/programa-repository';
 import { ProgramaItemRepository } from '../repositorys/programaItem-repository';
 import { SubcategoriaRepository } from '../repositorys/subCategoria-repository';
 import { CausaObitoRepository } from '../repositorys/causaObito-repository';
+import { AcontecimentoRepository } from '../repositorys/acontecimento-repository';
+import { AcontecimentoItemRepository } from '../repositorys/acontecimentoItem-repository';
 import { ManejoDto } from '../dtos/manejoDto';
 import { IndiceCicloReproducao } from './upl/indiceCicloReproducao';
 import { IndiceAnimal } from './geral/indiceAnimal';
@@ -21,6 +23,8 @@ export class ManejoService {
       this.especieRepository = container.get(EspecieRepository);
       this.subcategoriaRepository = container.get(SubcategoriaRepository);
       this.causaObitoRepository = container.get(CausaObitoRepository);
+      this.acontecimentoRepository = container.get(AcontecimentoRepository);
+      this.acontecimentoItemRepository = container.get(AcontecimentoItemRepository);
       this.manejoDto = container.get(ManejoDto);
    }
 
@@ -185,9 +189,9 @@ export class ManejoService {
       return id;
    }
 
-   obterProgramaItensPorSituacao = async (situacaoId) => {
+   obterProgramaItensPorTag = async (tagId) => {
 
-      let itens = await this.programaItemRepository.obterPorSituacao(situacaoId);
+      let itens = await this.programaItemRepository.obterPorTag(tagId);
 
       for (let i = 0; i < itens.length; i++) {
          let item = itens[i];
@@ -279,5 +283,21 @@ export class ManejoService {
       };
 
       return this.manejoDto.montarRelatorioUpl(resumoRelatorio, dataInicial, dataFinal);
+   }
+
+   obterAcontecimentosPorSetor = async (setor, data) => {
+      let acontecimentoHoje;
+      let existeAcontecimento = await this.acontecimentoRepository.verificarSeExiste(setor, data);
+
+      if(existeAcontecimento){
+        let acotecimentoHoje = await this.acontecimentoRepository.obterPorData(data);
+        let acotecimentoItens = await this.acontecimentoItemRepository.obterPorAcontecimento(acotecimentoHoje.id);
+
+         return acotecimentoHoje;
+      }
+
+      // let tags = await this.tagRepository.obterPorSetor(setor);
+      // let tagIds = tags.map(i => i.id);
+      // let programaItens = await this.programaItemRepository.obterPorTagIds(tagIds);
    }
 }

@@ -15,10 +15,18 @@ export class ProgramaItemRepository extends Repository {
         return result;
     }
 
-    async obterPorSituacao(situacaoId) {
+    async obterPorTag(tagId) {
         let result = this.dao.obterTodos();
 
-        result = result.filter(a => a.situacaoId == situacaoId);
+        result = result.filter(a => a.tagId == tagId);
+
+        return result;
+    }
+
+    async obterPorTagIds(tagIds){
+        let result = this.dao.obterTodos();
+
+        result = result.filter(r => tagIds.includes(r.tagId));
 
         return result;
     }

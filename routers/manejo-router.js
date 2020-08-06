@@ -28,7 +28,7 @@ router.get('/reprodutores', manejoController.obterReprodutores);
 
 router.get('/programa', manejoController.obterPrograma);
 
-router.get('/programa-itens', manejoController.obterProgramaItensPorSituacao);
+router.get('/programa-itens', manejoController.obterProgramaItensPorTag);
 
 router.delete('/programa-item/:id', manejoController.removerProgramaItem);
 
@@ -43,5 +43,7 @@ router.get('/tags', manejoController.obterTags);
 router.get('/causa-obitos', manejoController.obterCausaObitos);
 
 router.get('/relatorios/upl', manejoController.obterRelatorioUpl);
+
+router.get('/acontecimentos', manejoController.obterAcontecimentosPorSetor);
 
 export default router;
