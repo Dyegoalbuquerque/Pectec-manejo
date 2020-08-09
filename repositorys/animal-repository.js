@@ -28,7 +28,7 @@ export class AnimalRepository extends Repository{
     async obterQuantidadePorTag(tag) {
         let result = this.dao.obterTodos();
 
-        result = result.filter(a => a.situacao == tag);
+        result = result.filter(a => a.tag == tag);
 
         return result.length;
     }
@@ -36,9 +36,9 @@ export class AnimalRepository extends Repository{
     async obterFemeasAtivas() {
         let result = this.dao.obterTodos();
 
-        let situacoes = ["G", "L", "CG", "IDC", "M"];
+        let tags = ["G", "L", "CG", "IDC", "M"];
 
-        result = result.filter(a => a.sexo == 'F' && situacoes.includes(a.situacao));
+        result = result.filter(a => a.sexo == 'F' && tags.includes(a.tag));
 
         return result;
     }
@@ -46,7 +46,7 @@ export class AnimalRepository extends Repository{
     async obterPorSexoTag(sexo, tag) {
         let result = this.dao.obterTodos();
 
-        result = result.filter(a => a.situacao == tag && a.sexo == sexo);
+        result = result.filter(a => a.tag == tag && a.sexo == sexo);
 
         return result;
     }
@@ -54,7 +54,7 @@ export class AnimalRepository extends Repository{
     async obterPorSituacao(situacoes) {
         let result = this.dao.obterTodos();
 
-        result = result.filter(r => situacoes.includes(r.situacao));
+        result = result.filter(r => situacoes.includes(r.tag));
 
         return result;
     }

@@ -7,7 +7,7 @@ export class Animal {
     maeId;
     paiId;
     especieId;
-    situacao;
+    tag;
     numero;
     nome;
     raca;

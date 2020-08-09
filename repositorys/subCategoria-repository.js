@@ -1,30 +1,14 @@
+import caller from 'grpc-caller';
 
-import { Repository } from './repository';
-import { Subcategoria } from '../models/subCategoria';
-
-export class SubcategoriaRepository extends Repository {
+export class SubcategoriaRepository{
 
     constructor() {
-        super(Subcategoria);
+        this.client = caller('127.0.0.1:50052', './configuracao.proto', 'ConfiguracaoService')
     }
 
-    async obterPorCodigoCategoria(codigo) {
-        let result = this.dao.obterTodos();
-  
-        result = result.filter(r => r.codigoCategoria == codigo);
-  
+    obterPorId = async (id) => {
+        let parametro = {id: id};
+        const result = await this.client.obterSubcategoriaPorId(parametro);
         return result;
-     }
-
-     async obterPorCategoria(categoriaId) {
-        let result = this.dao.obterTodos();
-
-        if(typeof categoriaId === 'string'){
-            return result;
-        }
-  
-        result = result.filter(r => r.categoriaId == categoriaId);
-  
-        return result;
-     }
+    }
 }

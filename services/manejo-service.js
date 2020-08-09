@@ -226,7 +226,7 @@ export class ManejoService {
 
       for (let i = 0; i < tags.length; i++) {
          let tag = tags[i];
-         let quantidade = animais.filter(a => a.situacao == tag.sigla).length;
+         let quantidade = animais.filter(a => a.tag == tag.sigla).length;
 
          let item = {
             id: tag.id,

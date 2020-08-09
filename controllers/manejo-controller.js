@@ -192,8 +192,8 @@ export class ManejoController extends BaseController {
 
    obterProgramaItensPorTag = async (req, res) => {
       try {
-         let situacaoId = req.query.situacaoId;
-         let data = await this.manejoService.obterProgramaItensPorTag(parseFloat(situacaoId));
+         let tagId = req.query.tagId;
+         let data = await this.manejoService.obterProgramaItensPorTag(parseFloat(tagId));
 
          return res.status(200).json(data);
       } catch (e) {
