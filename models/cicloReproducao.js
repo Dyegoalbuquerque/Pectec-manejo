@@ -22,9 +22,9 @@ export class CicloReproducao {
     quantidadeFilhoteNM;
     quantidadeFilhoteMF;
     pesoFilhoteNascimento;
-    pesoTodosFilhotesNascimento;
+    pesoLeitegadaNascimento;
     pesoFilhoteDesmamado;
-    pesoTodosFilhotesDesmamado;
+    pesoLeitegadaDesmamado;
     quantidadeFilhoteMorto;
     quantidadeSexoM;
     quantidadeSexoF;
