@@ -4,6 +4,7 @@ import { ManejoService } from '../services/manejo-service';
 import { BaseController } from './base-controller';
 import { Animal } from '../models/animal';
 import { CicloReproducao } from '../models/cicloReproducao';
+import { ProgramaItem } from "../models/programaItem";
 
 export class ManejoController extends BaseController {
 
@@ -217,7 +218,7 @@ export class ManejoController extends BaseController {
 
       try {
 
-         let programa = plainToClass(Programa, req.body);
+         let programa = plainToClass(ProgramaItem, req.body);
          let data = await this.manejoService.atualizarProgramaItem(programa);
          return res.status(200).json(data);
 

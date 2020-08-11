@@ -9,6 +9,7 @@ export class ProgramaItem{
     tempoOcorrencia;
     tagId;
     quantidade;
+    ativo;
     objetivoId;
     objetivo;
 }
