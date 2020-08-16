@@ -1,5 +1,6 @@
 import { AnimalRepository } from '../repositorys/animal-repository';
 import { CicloReproducaoRepository } from '../repositorys/cicloReproducao-repository';
+import { CicloCrescimentoRepository } from '../repositorys/cicloCrescimento-repository';
 import { TagRepository } from '../repositorys/tag-repository';
 import { EspecieRepository } from '../repositorys/especie-repository';
 import { ProgramaRepository } from '../repositorys/programa-repository';
@@ -11,12 +12,14 @@ import { AcontecimentoItemRepository } from '../repositorys/acontecimentoItem-re
 import { ManejoDto } from '../dtos/manejoDto';
 import { IndiceCicloReproducao } from './upl/indiceCicloReproducao';
 import { IndiceAnimal } from './geral/indiceAnimal';
+import { CicloCrescimento } from '../models/cicloCrescimento';
 
 export class ManejoService {
 
    constructor(container) {
       this.animalRepository = container.get(AnimalRepository);
       this.cicloReproducaoRepository = container.get(CicloReproducaoRepository);
+      this.cicloCrescimentoRepository = container.get(CicloCrescimentoRepository);
       this.programaRepository = container.get(ProgramaRepository);
       this.programaItemRepository = container.get(ProgramaItemRepository);
       this.tagRepository = container.get(TagRepository);
@@ -92,6 +95,10 @@ export class ManejoService {
       }
 
       let result = await this.cicloReproducaoRepository.atualizar(item);
+
+      if (item.alterouDataDesmame() && item.existeDesmamados()) {
+         await this.salvarCiclosCrescimento(item);
+      }
 
       return result;
    }
@@ -202,6 +209,7 @@ export class ManejoService {
    }
 
    salvarProgramaItem = async (item) => {
+      item.ativo = true;
 
       let id = await this.programaItemRepository.salvar(item);
       item.id = id;
@@ -285,19 +293,43 @@ export class ManejoService {
       return this.manejoDto.montarRelatorioUpl(resumoRelatorio, dataInicial, dataFinal);
    }
 
-   obterAcontecimentosPorSetor = async (setor, data) => {
-      let acontecimentoHoje;
-      let existeAcontecimento = await this.acontecimentoRepository.verificarSeExiste(setor, data);
+   obterAcontecimentosPorSetor = async (setor, dataInicio, dataFinal) => {
 
-      if(existeAcontecimento){
-        let acotecimentoHoje = await this.acontecimentoRepository.obterPorData(data);
-        let acotecimentoItens = await this.acontecimentoItemRepository.obterPorAcontecimento(acotecimentoHoje.id);
+      let existeAcontecimentos = await this.acontecimentoRepository.verificarSeExiste(setor, dataInicio, dataFinal);
 
-         return acotecimentoHoje;
+      if (existeAcontecimentos) {
+         let acotecimentosDoIntervalo = await this.acontecimentoRepository.obterPorIntervalo(setor, dataInicio, dataFinal);
+         let itens = [];
+
+         for (let i = 0; i < acotecimentosDoIntervalo.length; i++) {
+            let acontecimento = acotecimentosDoIntervalo[i];
+            let itensConsultados = await this.acontecimentoItemRepository.obterPorAcontecimento(acontecimento.id);
+            itens = itens.concat(itensConsultados);
+         }
+         return itens;
+
+      } else {
+
+         let programas = await this.programaRepository.obterPorSetor(setor);
+         let programaIds = programas.map(i => i.id);
+         let programaItensAtivos = await this.programaItemRepository.obterAtivosPorProgramaIds(programaIds);
       }
+      /*
+      let tags = await this.tagRepository.obterPorSetor(setor);
+      let tagIds = tags.map(i => i.id);
+      let programaItens = await this.programaItemRepository.obterPorTagIds(tagIds);
+      */
 
-      // let tags = await this.tagRepository.obterPorSetor(setor);
-      // let tagIds = tags.map(i => i.id);
-      // let programaItens = await this.programaItemRepository.obterPorTagIds(tagIds);
+      return [];
+   }
+
+   salvarCiclosCrescimento = async (cicloReproducao) => {
+
+      if (cicloReproducao.dataDesmameReal) {
+         let cicloCrescimento = new CicloCrescimento();
+         cicloCrescimento.gerarCiclo(cicloReproducao);
+
+         await this.cicloCrescimentoRepository.salvar(cicloCrescimento);
+      }
    }
 }

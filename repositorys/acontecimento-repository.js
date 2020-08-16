@@ -9,20 +9,18 @@ export class AcontecimentoRepository extends Repository {
         super(Acontecimento);
     }
 
-    verificarSeExiste = async (setor, data) => {
-        let result = this.dao.obterTodos();
+    verificarSeExiste = async (setor, dataInicial, dataFinal) => {
+        let result = await this.obterPorIntervalo(setor, dataInicial, dataFinal);
 
-        result = result.filter(a => a.setor == setor && DataHelper.saoIguais(a.data, data));
-        result = result[0];
-
-        return result;
+        return result.length > 0;
     }
 
-    obterPorData = async (data) => {
-        let result = this.dao.obterTodos();
+    obterPorIntervalo = async (setor, dataInicial, dataFinal) => {
+        let todos = this.dao.obterTodos();
 
-        result = result.filter(a => DataHelper.saoIguais(a.data, data));
-
+        let result = todos.filter(e => new Date(e.data).getTime() >= new Date(dataInicial).getTime() &&
+                                       new Date(e.data).getTime() <= new Date(dataFinal).getTime() &&
+                                       e.setor == setor);
         return result;
     }
 }

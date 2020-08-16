@@ -7,4 +7,5 @@ export class Acontecimento {
     data;
     setor;
     status;
+    itens;
 }

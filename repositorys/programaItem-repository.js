@@ -7,7 +7,7 @@ export class ProgramaItemRepository extends Repository {
         super(ProgramaItem);
     }
 
-    async obterPorPrograma(programaId) {
+    obterPorPrograma = async (programaId) => {
         let result = this.dao.obterTodos();
 
         result = result.filter(a => a.programaId == programaId);
@@ -15,7 +15,7 @@ export class ProgramaItemRepository extends Repository {
         return result;
     }
 
-    async obterPorTag(tagId) {
+    obterPorTag = async (tagId) => {
         let result = this.dao.obterTodos();
 
         result = result.filter(a => a.tagId == tagId);
@@ -23,11 +23,20 @@ export class ProgramaItemRepository extends Repository {
         return result;
     }
 
-    async obterPorTagIds(tagIds){
+    obterPorTagIds = async (tagIds) => {
         let result = this.dao.obterTodos();
 
         result = result.filter(r => tagIds.includes(r.tagId));
 
         return result;
+    }
+
+    obterAtivosPorProgramaIds = async (programaIds) => {
+        let result = this.dao.obterTodos();
+
+        result = result.filter(r => programaIds.includes(r.programaId) && r.ativo);
+
+        return result;
+
     }
 }

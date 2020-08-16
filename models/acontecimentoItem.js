@@ -8,8 +8,10 @@ export class AcontecimentoItem {
     descricao;
     status;
     tipo;
+    consumoId;
     estoqueId;
-    quantidade
-    intervaloDestinatario;
+    quantidade;
+    alvos;
     programaItemId;
+    subcategoriaId;
 }

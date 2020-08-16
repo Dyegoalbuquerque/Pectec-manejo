@@ -269,8 +269,9 @@ export class ManejoController extends BaseController {
    obterAcontecimentosPorSetor = async (req, res) => {
       try {
          let setor = req.query.setor;
-         let data = req.query.data;
-         let dados = await this.manejoService.obterAcontecimentosPorSetor(setor, data);
+         let dataInicio = req.query.dataInicio;
+         let dataFinal = req.query.dataFinal;
+         let dados = await this.manejoService.obterAcontecimentosPorSetor(setor, dataInicio, dataFinal);
          return res.status(200).json(dados);
 
       } catch (e) {

@@ -32,7 +32,11 @@ export class CicloReproducao {
     quantidadeAdotado;
     numeroFemeaAdocao;
     quantidadeDesmamado;
-    valorDesmamado;
+    valorSaida;
+
+    existeDesmamados() {
+        return this.quantidadeDesmamado ? true : false;
+    }
 
     existeDataParto() {
         return this.dataPartoReal ? true : false;
