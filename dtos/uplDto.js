@@ -1,5 +1,5 @@
 
-export class ManejoDto {
+export class UplDto {
 
     constructor() {
     }
@@ -11,7 +11,9 @@ export class ManejoDto {
             maeId: animal.maeId,
             paiId: animal.paiId,
             tag: animal.tag,
+            sexo: animal.sexo,
             raca: animal.raca,
+            numero: animal.numero,
             dataNascimento: animal.dataNascimento,
             acompanhamentos: animal.acompanhamentos
         }

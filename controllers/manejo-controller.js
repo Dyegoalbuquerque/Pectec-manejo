@@ -1,6 +1,6 @@
 
 import { plainToClass } from "class-transformer";
-import { ManejoService } from '../services/manejo-service';
+import { UplService } from '../services/upl-service';
 import { BaseController } from './base-controller';
 import { Animal } from '../models/animal';
 import { CicloReproducao } from '../models/cicloReproducao';
@@ -10,13 +10,13 @@ export class ManejoController extends BaseController {
 
    constructor(container) {
       super();
-      this.manejoService = container.get(ManejoService);
+      this.uplService = container.get(UplService);
    }
 
    simularCiclo = async (req, res) => {
 
       try {
-         let data = await this.manejoService.simularCiclo(req.body);
+         let data = await this.uplService.simularCiclo(req.body);
          return res.status(200).json(data);
 
       } catch (e) {
@@ -27,7 +27,7 @@ export class ManejoController extends BaseController {
    obterAnimalPorId = async (req, res) => {
       try {
          let id = req.params.id.replace(':', '');
-         let data = await this.manejoService.obterAnimalPorId(id);
+         let data = await this.uplService.obterAnimalPorId(id);
 
          return res.status(200).json(data);
       } catch (e) {
@@ -38,7 +38,7 @@ export class ManejoController extends BaseController {
    obterAnimalPorTag = async (req, res) => {
       try {
          let tags = req.query.tags.replace(':', '');
-         let data = await this.manejoService.obterAnimalPorTag(tags);
+         let data = await this.uplService.obterAnimalPorTag(tags);
 
          return res.status(200).json(data);
       } catch (e) {
@@ -48,7 +48,7 @@ export class ManejoController extends BaseController {
 
    obterReprodutores = async (req, res) => {
       try {
-         let data = await this.manejoService.obterReprodutores();
+         let data = await this.uplService.obterReprodutores();
 
          return res.status(200).json(data);
       } catch (e) {
@@ -58,7 +58,7 @@ export class ManejoController extends BaseController {
 
    obterCausaObitos = async (req, res) => {
       try {
-         let data = await this.manejoService.obterCausaObitos();
+         let data = await this.uplService.obterCausaObitos();
 
          return res.status(200).json(data);
       } catch (e) {
@@ -69,7 +69,7 @@ export class ManejoController extends BaseController {
    obterPrograma = async (req, res) => {
       try {
          let tipoPrograma = req.query.tipoPrograma;
-         let data = await this.manejoService.obterPrograma(tipoPrograma);
+         let data = await this.uplService.obterPrograma(tipoPrograma);
 
          return res.status(200).json(data);
       } catch (e) {
@@ -86,7 +86,7 @@ export class ManejoController extends BaseController {
    obterFichaAnimal = async (req, res) => {
       try {
          let id = req.params.id.replace(':', '');
-         let data = await this.manejoService.obterFichaAnimal(id);
+         let data = await this.uplService.obterFichaAnimal(id);
 
          return res.status(200).json(data);
       } catch (e) {
@@ -97,7 +97,7 @@ export class ManejoController extends BaseController {
    obterCiclosReproducaoPorAno = async (req, res) => {
       try {
          let ano = req.query.ano;
-         let data = await this.manejoService.obterCiclosRepdorucaoPorAno(ano);
+         let data = await this.uplService.obterCiclosRepdorucaoPorAno(ano);
 
          return res.status(200).json(data);
       } catch (e) {
@@ -108,7 +108,7 @@ export class ManejoController extends BaseController {
    obterCiclosReproducaoAtivoPorAnimal = async (req, res) => {
       try {
          let id = req.params.id.replace(':', '');
-         let data = await this.manejoService.obterCiclosReproducaoAtivoPorAnimal(id);
+         let data = await this.uplService.obterCiclosReproducaoAtivoPorAnimal(id);
 
          return res.status(200).json(data);
       } catch (e) {
@@ -120,7 +120,7 @@ export class ManejoController extends BaseController {
 
       try {
          let animal = plainToClass(Animal, req.body);
-         let data = await this.manejoService.salvarAnimal(animal);
+         let data = await this.uplService.salvarAnimal(animal);
          return res.status(201).json(data);
 
       } catch (e) {
@@ -132,7 +132,7 @@ export class ManejoController extends BaseController {
 
       try {
          let animal = plainToClass(Animal, req.body);
-         let data = await this.manejoService.atualizarAnimal(animal);
+         let data = await this.uplService.atualizarAnimal(animal);
 
          return res.status(200).json(data);
 
@@ -146,7 +146,7 @@ export class ManejoController extends BaseController {
       try {
 
          let id = req.params.id.replace(':', '');
-         let data = await this.manejoService.removerAnimal(id);
+         let data = await this.uplService.removerAnimal(id);
          return res.status(200).json(data);
 
       } catch (e) {
@@ -159,7 +159,7 @@ export class ManejoController extends BaseController {
       try {
 
          let id = req.params.id.replace(':', '');
-         let data = await this.manejoService.removerProgramaItem(id);
+         let data = await this.uplService.removerProgramaItem(id);
          return res.status(200).json(data);
 
       } catch (e) {
@@ -171,7 +171,7 @@ export class ManejoController extends BaseController {
 
       try {
          let ciclo = plainToClass(CicloReproducao, req.body);
-         let data = await this.manejoService.salvarCicloReproducao(ciclo);
+         let data = await this.uplService.salvarCicloReproducao(ciclo);
          return res.status(201).json(data);
 
       } catch (e) {
@@ -183,7 +183,7 @@ export class ManejoController extends BaseController {
 
       try {
          let ciclo = plainToClass(CicloReproducao, req.body);
-         let data = await this.manejoService.atualizarCicloReproducao(ciclo);
+         let data = await this.uplService.atualizarCicloReproducao(ciclo);
          return res.status(200).json(data);
 
       } catch (e) {
@@ -194,7 +194,7 @@ export class ManejoController extends BaseController {
    obterProgramaItensPorTag = async (req, res) => {
       try {
          let tagId = req.query.tagId;
-         let data = await this.manejoService.obterProgramaItensPorTag(parseFloat(tagId));
+         let data = await this.uplService.obterProgramaItensPorTag(parseFloat(tagId));
 
          return res.status(200).json(data);
       } catch (e) {
@@ -206,7 +206,7 @@ export class ManejoController extends BaseController {
 
       try {
          let programa = plainToClass(Programa, req.body);
-         let data = await this.manejoService.salvarProgramaItem(programa);
+         let data = await this.uplService.salvarProgramaItem(programa);
          return res.status(201).json(data);
 
       } catch (e) {
@@ -219,7 +219,7 @@ export class ManejoController extends BaseController {
       try {
 
          let programa = plainToClass(ProgramaItem, req.body);
-         let data = await this.manejoService.atualizarProgramaItem(programa);
+         let data = await this.uplService.atualizarProgramaItem(programa);
          return res.status(200).json(data);
 
       } catch (e) {
@@ -232,7 +232,7 @@ export class ManejoController extends BaseController {
       try {
 
          let setor = req.query.setor;
-         let data = await this.manejoService.obterTagsQuantidades(setor);
+         let data = await this.uplService.obterTagsQuantidades(setor);
          return res.status(200).json(data);
 
       } catch (e) {
@@ -245,7 +245,7 @@ export class ManejoController extends BaseController {
       try {
 
          let setor = req.query.setor;
-         let data = await this.manejoService.obterTags(setor);
+         let data = await this.uplService.obterTags(setor);
          return res.status(200).json(data);
 
       } catch (e) {
@@ -258,7 +258,7 @@ export class ManejoController extends BaseController {
       try {
          let dataInicial = req.query.dataInicial;
          let dataFinal = req.query.dataFinal;
-         let data = await this.manejoService.obterRelatorioUpl(dataInicial, dataFinal);
+         let data = await this.uplService.obterRelatorioUpl(dataInicial, dataFinal);
          return res.status(200).json(data);
 
       } catch (e) {
@@ -271,7 +271,7 @@ export class ManejoController extends BaseController {
          let setor = req.query.setor;
          let dataInicio = req.query.dataInicio;
          let dataFinal = req.query.dataFinal;
-         let dados = await this.manejoService.obterAcontecimentosPorSetor(setor, dataInicio, dataFinal);
+         let dados = await this.uplService.obterAcontecimentosPorSetor(setor, dataInicio, dataFinal);
          return res.status(200).json(dados);
 
       } catch (e) {

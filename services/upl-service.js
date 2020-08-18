@@ -9,12 +9,12 @@ import { SubcategoriaRepository } from '../repositorys/subCategoria-repository';
 import { CausaObitoRepository } from '../repositorys/causaObito-repository';
 import { AcontecimentoRepository } from '../repositorys/acontecimento-repository';
 import { AcontecimentoItemRepository } from '../repositorys/acontecimentoItem-repository';
-import { ManejoDto } from '../dtos/manejoDto';
+import { UplDto } from '../dtos/uplDto';
 import { IndiceCicloReproducao } from './upl/indiceCicloReproducao';
 import { IndiceAnimal } from './geral/indiceAnimal';
 import { CicloCrescimento } from '../models/cicloCrescimento';
 
-export class ManejoService {
+export class UplService {
 
    constructor(container) {
       this.animalRepository = container.get(AnimalRepository);
@@ -28,7 +28,7 @@ export class ManejoService {
       this.causaObitoRepository = container.get(CausaObitoRepository);
       this.acontecimentoRepository = container.get(AcontecimentoRepository);
       this.acontecimentoItemRepository = container.get(AcontecimentoItemRepository);
-      this.manejoDto = container.get(ManejoDto);
+      this.uplDto = container.get(UplDto);
    }
 
    obterCiclosRepdorucaoPorAno = async (ano) => {
@@ -39,13 +39,13 @@ export class ManejoService {
          item.acompanhamentos = await this.cicloReproducaoRepository.obterAtivoPorFemea(item.id);
       }
 
-      return this.manejoDto.montarAnimais(femeas);
+      return this.uplDto.montarAnimais(femeas);
    }
 
    obterCiclosReproducaoAtivoPorAnimal = async (id) => {
       let ciclos = await this.cicloReproducaoRepository.obterAtivoPorFemea(id);
 
-      return this.manejoDto.montarCiclosReproducao(ciclos);
+      return this.uplDto.montarCiclosReproducao(ciclos);
    }
 
    salvarCicloReproducao = async (item) => {
@@ -96,7 +96,7 @@ export class ManejoService {
 
       let result = await this.cicloReproducaoRepository.atualizar(item);
 
-      if (item.alterouDataDesmame() && item.existeDesmamados()) {
+      if (item.alterouDataDesmame(ciclo) && item.existeDesmamados()) {
          await this.salvarCiclosCrescimento(item);
       }
 
@@ -106,26 +106,26 @@ export class ManejoService {
    obterAnimalPorId = async (id) => {
       let result = await this.animalRepository.obterPorId(id);
 
-      return this.manejoDto.montarAnimal(result);
+      return this.uplDto.montarAnimal(result);
    }
 
    obterAnimalPorTag = async (situacoes) => {
       
       let result = await this.animalRepository.obterPorTag(situacoes);
 
-      return this.manejoDto.montarAnimais(result);
+      return this.uplDto.montarAnimais(result);
    }
 
    obterReprodutores = async () => {
       let result = await this.animalRepository.obterPorSexoTag("M", "RP");
 
-      return this.manejoDto.montarAnimais(result);
+      return this.uplDto.montarAnimais(result);
    }
 
    obterCausaObitos = async () => {
       let result = await this.causaObitoRepository.obterTodos();
 
-      return this.manejoDto.montarCausasObitos(result);
+      return this.uplDto.montarCausasObitos(result);
    }
 
    obterPrograma = async (tipoPrograma) => {
@@ -140,19 +140,19 @@ export class ManejoService {
          }
       }
 
-      return this.manejoDto.montarPrograma(programa);
+      return this.uplDto.montarPrograma(programa);
    }
 
    obterAnimalPorNumero = async (numero) => {
       let result = await this.animalRepository.obterPorNumero(numero);
 
-      return this.manejoDto.montarAnimal(result);
+      return this.uplDto.montarAnimal(result);
    }
 
    obterFichaAnimal = async (id) => {
       let result = await this.animalRepository.obterPorId(id);
 
-      return this.manejoDto.montarAnimal(result);
+      return this.uplDto.montarAnimal(result);
    }
 
    salvarAnimal = async (item) => {
@@ -205,7 +205,7 @@ export class ManejoService {
          item.objetivo = await this.subcategoriaRepository.obterPorId(item.objetivoId);
       }
 
-      return this.manejoDto.montarProgramasItens(itens);
+      return this.uplDto.montarProgramasItens(itens);
    }
 
    salvarProgramaItem = async (item) => {
@@ -240,13 +240,13 @@ export class ManejoService {
 
       let animais = await this.animalRepository.obterTodos();
 
-      return this.manejoDto.montarTagsQuantidade(tags, animais);
+      return this.uplDto.montarTagsQuantidade(tags, animais);
    }
 
    obterTags = async (setor) => {
       let tags = await this.tagRepository.obterPorSetor(setor);
 
-      return this.manejoDto.montarTags(tags);
+      return this.uplDto.montarTags(tags);
    }
 
    obterRelatorioUpl = async (dataInicial, dataFinal) => {
@@ -283,7 +283,7 @@ export class ManejoService {
          quantidadeTotalGestacao, quantidadeTotalLactacao, quantidadeTotalConfirmacaoGestacao
       };
 
-      return this.manejoDto.montarRelatorioUpl(resumoRelatorio, dataInicial, dataFinal);
+      return this.uplDto.montarRelatorioUpl(resumoRelatorio, dataInicial, dataFinal);
    }
 
    obterAcontecimentosPorSetor = async (setor, dataInicio, dataFinal) => {
