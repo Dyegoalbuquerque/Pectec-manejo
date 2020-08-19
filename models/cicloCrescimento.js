@@ -36,4 +36,16 @@ export class CicloCrescimento {
             this.valorEntrada = cicloReproducao.valorSaida;
         }
     }
+
+    calcularQuantidadeAnimalAtual() {
+
+        let entrada = this.quantidadeEntrada ? this.quantidadeEntrada : 0;
+        let saida = this.quantidadeSaida ? this.quantidadeSaida : 0;
+        let semDestino = this.quantidadeSemDestino ? this.quantidadeSemDestino : 0;
+        let mortos = this.quantidadeAnimalMorto ? this.quantidadeAnimalMorto : 0;
+
+        let quantidade = entrada - (saida + semDestino + mortos);
+
+        return quantidade;
+    }
 }

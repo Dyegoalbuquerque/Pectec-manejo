@@ -6,7 +6,7 @@ import { Animal } from '../models/animal';
 import { CicloReproducao } from '../models/cicloReproducao';
 import { ProgramaItem } from "../models/programaItem";
 
-export class ManejoController extends BaseController {
+export class UplController extends BaseController {
 
    constructor(container) {
       super();
