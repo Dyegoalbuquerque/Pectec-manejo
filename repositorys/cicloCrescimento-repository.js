@@ -15,4 +15,13 @@ export class CicloCrescimentoRepository extends Repository{
 
         return result;
     }
+
+    obterPorIntervalo = async (dataInicial, dataFinal) => {
+        let todos = this.dao.obterTodos();
+
+        let result = todos.filter(e => new Date(e.dataEntrada).getTime() >= new Date(dataInicial).getTime() && 
+                                       new Date(e.dataEntrada).getTime() <= new Date(dataFinal).getTime());
+  
+        return result;
+    }
 }

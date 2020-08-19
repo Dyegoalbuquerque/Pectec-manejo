@@ -12,8 +12,20 @@ export class UCService {
    obterCiclosCrescimentoAtivo = async () => {
       let ciclos = await this.cicloCrescimentoRepository.obterAtivos();
 
-     console.log(IndiceCicloCrescimento.obterQuantidadeLeitoesNaUC(ciclos));
-
       return this.ucDto.montarCiclosCrescimento(ciclos);
+   }
+
+   obterRelatorioUC = async (dataInicial, dataFinal) => {
+
+      let todosCiclos = await this.cicloCrescimentoRepository.obterPorIntervalo(dataInicial, dataFinal);
+
+      let quantidadeAnimais = IndiceCicloCrescimento.obterQuantidadeAnimaisNaUC(todosCiclos);
+      let taxaMortalidade = IndiceCicloCrescimento.obterTaxaMortalidade(todosCiclos);
+
+      let resumoRelatorio = {
+         quantidadeAnimais, taxaMortalidade
+      };
+
+      return this.ucDto.montarRelatorioUC(resumoRelatorio, dataInicial, dataFinal);
    }
 }

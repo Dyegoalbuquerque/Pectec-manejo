@@ -49,4 +49,14 @@ export class UCDto {
 
         return itens;
     }
+
+    montarRelatorioUC(resumoRelatorio, dataInicial, dataFinal) {
+
+        return {
+            quantidadeAnimais: resumoRelatorio.quantidadeAnimais,
+            taxaMortalidade: resumoRelatorio.taxaMortalidade,
+            dataInicial: dataInicial,
+            dataFinal: dataFinal
+        }
+    }
 }

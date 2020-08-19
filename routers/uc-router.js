@@ -8,4 +8,7 @@ let ucController = Container.get(UCController);
 
 router.get('/ciclos-crescimento/ativo', ucController.obterCiclosCrescimentoAtivo);
 
+router.get('/relatorios/uc', ucController.obterRelatorioUC);
+
+
 export default router;
