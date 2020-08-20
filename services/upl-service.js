@@ -97,7 +97,7 @@ export class UplService {
       let result = await this.cicloReproducaoRepository.atualizar(item);
 
       if (item.alterouDataDesmame(ciclo) && item.existeDesmamados()) {
-         await this.salvarCiclosCrescimento(item);
+         await this.salvarCicloCrescimento(item);
       }
 
       return result;
@@ -224,7 +224,7 @@ export class UplService {
       return item;
    }
 
-   salvarCiclosCrescimento = async (cicloReproducao) => {
+   salvarCicloCrescimento = async (cicloReproducao) => {
 
       if (cicloReproducao.dataDesmameReal) {
          let cicloCrescimento = new CicloCrescimento();

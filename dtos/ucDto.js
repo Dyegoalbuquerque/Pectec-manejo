@@ -13,6 +13,7 @@ export class UCDto {
             dataEntrada: ciclo.dataEntrada,
             dataEncerramento: ciclo.dataEncerramento,
             ativo: ciclo.ativo,
+            local: ciclo.local,
             quantidadeEntrada: ciclo.quantidadeEntrada,
             quantidadeSaida: ciclo.quantidadeSaida,
             quantidadeAnimalMorto: ciclo.quantidadeAnimalMorto,

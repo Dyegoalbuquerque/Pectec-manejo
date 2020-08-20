@@ -12,6 +12,7 @@ export class CicloCrescimento {
     quantidadeSaida;
     quantidadeAnimalMorto;
     localId;
+    local;
     valorEntrada;
     valorSaida;
     pesoAnimalEntrada;
@@ -21,6 +22,14 @@ export class CicloCrescimento {
     ativo;
     quantidadeSeparado;
     quantidadeSemDestino;
+
+    definirDataEncerramento(dataNascimento){
+        let dataDeInicio = new Date(dataNascimento);
+        let diasAteEncerrar = dataNascimento.getDate() - 1 + 64;
+
+        this.dataEncerramento = dataDeInicio;
+        this.dataEncerramento.setDate(diasAteEncerrar);
+    }
 
     gerarCiclo(cicloReproducao) {
 
@@ -34,6 +43,7 @@ export class CicloCrescimento {
             this.pesoLoteEntrada = cicloReproducao.pesoLeitegadaDesmamado;
             this.quantidadeEntrada = cicloReproducao.quantidadeDesmamado;
             this.valorEntrada = cicloReproducao.valorSaida;
+            this.definirDataEncerramento(this.dataNascimento);
         }
     }
 
