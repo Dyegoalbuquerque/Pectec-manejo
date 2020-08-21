@@ -193,8 +193,31 @@ export class UplDto {
             pldMedioGeral: resumoRelatorio.pldMedioGeral,
             pmldMedioGeral: resumoRelatorio.pmldMedioGeral,
             taxaMortalidade: resumoRelatorio.taxaMortalidade,
+            taxaRetornoCio: resumoRelatorio.taxaRetornoCio,
+            taxaAborto: resumoRelatorio.taxaAborto,
+            taxaParicao : resumoRelatorio.taxaParicao,
             dataInicial: dataInicial,
             dataFinal: dataFinal
         }
+    }
+
+    montarRelatorioMatriz(ciclo) {
+
+        return {
+            quantidadeTotalMatriz: resumoRelatorio.quantidadeTotalMatriz,
+            quantidadeTotalReprodutor: resumoRelatorio.quantidadeTotalReprodutor,
+            quantidadeTotalMarra: resumoRelatorio.quantidadeTotalMarra,
+        }
+    }
+
+    montarRelatorioMatrizes(ciclos){
+        let itens = [];
+
+        for (let i = 0; i < ciclos.length; i++) {
+            let ciclo = ciclos[i];
+            itens.push(this.montarRelatorioMatriz(ciclo));
+        }
+
+        return itens;
     }
 }

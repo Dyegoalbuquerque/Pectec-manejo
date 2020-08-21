@@ -92,4 +92,38 @@ export class IndiceCicloReproducao {
 
         return parseFloat(taxaMortalidade).toFixed(2);
     }
+
+    static obterTaxaParicao(ciclos) {
+
+        let totalPartos = ciclos.reduce((sum, ciclo) => {
+            return sum + (ciclo.dataPartoReal && !ciclo.ativo ? 1 : 0);
+        }, 0);
+
+        let taxaParicao = (totalPartos * 100) / ciclos.length;
+        
+        return parseFloat(taxaParicao).toFixed(2);
+    }
+
+    static obterTaxaAborto(ciclos) {
+
+        let totalAborto = ciclos.reduce((sum, ciclo) => {
+            return sum + (ciclo.aborto ? 1 : 0);
+        }, 0) / ciclos.length;
+
+
+        let taxaAborto = (totalAborto * 100) / ciclos.length;
+
+        return parseFloat(taxaAborto).toFixed(2);
+    }
+
+    static obterTaxaRetornoCio(ciclos) {
+
+        let totalRetorno = ciclos.reduce((sum, ciclo) => {
+            return sum + (!ciclo.dataPartoReal && !ciclo.ativo ? 1 : 0);
+        }, 0);
+
+        let taxaRetorno = (totalRetorno * 100) / ciclos.length;
+
+        return parseFloat(taxaRetorno).toFixed(2);
+    }
 }

@@ -97,7 +97,7 @@ export class UplController extends BaseController {
    obterCiclosReproducaoPorAno = async (req, res) => {
       try {
          let ano = req.query.ano;
-         let data = await this.uplService.obterCiclosRepdorucaoPorAno(ano);
+         let data = await this.uplService.obterCiclosReproducaoPorAno(ano);
 
          return res.status(200).json(data);
       } catch (e) {

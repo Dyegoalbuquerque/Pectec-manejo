@@ -27,9 +27,8 @@ export class CicloReproducaoRepository extends Repository{
     async obterPorIntervalo(dataInicial, dataFinal) {
         let todos = this.dao.obterTodos();
 
-        let result = todos.filter(e => new Date(e.dataPartoReal).getTime() >= new Date(dataInicial).getTime() && 
-                                       new Date(e.dataPartoReal).getTime() <= new Date(dataFinal).getTime());
-  
+        let result = todos.filter(e => new Date(e.dataFecundacao).getTime() >= new Date(dataInicial).getTime() && 
+                                       new Date(e.dataFecundacao).getTime() <= new Date(dataFinal).getTime());
         return result;
     }
 }

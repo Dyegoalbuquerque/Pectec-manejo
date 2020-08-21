@@ -31,7 +31,7 @@ export class UplService {
       this.uplDto = container.get(UplDto);
    }
 
-   obterCiclosRepdorucaoPorAno = async (ano) => {
+   obterCiclosReproducaoPorAno = async (ano) => {
       let femeas = await this.animalRepository.obterFemeasAtivas();
 
       for (let i = 0; i < femeas.length; i++) {
@@ -271,7 +271,9 @@ export class UplService {
       let pmlnMedioGeral = IndiceCicloReproducao.obterPMLN(todosCiclos, quantidadeCiclosNascidos);
       let pmldMedioGeral = IndiceCicloReproducao.obterPMLD(todosCiclos, quantidadeCiclosDesmamados);
       let taxaMortalidade = IndiceCicloReproducao.obterTaxaMortalidade(todosCiclos);
-
+      let taxaRetornoCio = IndiceCicloReproducao.obterTaxaRetornoCio(todosCiclos);
+      let taxaAborto = IndiceCicloReproducao.obterTaxaAborto(todosCiclos);
+      let taxaParicao = IndiceCicloReproducao.obterTaxaParicao(todosCiclos);
       let plnMedioGeral = 0;
       let pldMedioGeral = 0;
 
@@ -280,10 +282,25 @@ export class UplService {
          plnMedioGeral, pmlnMedioGeral, pldMedioGeral,
          pmldMedioGeral, quantidadeTotalIDC, taxaMortalidade,
          quantidadeTotalMatriz, quantidadeTotalReprodutor, quantidadeTotalMarra,
-         quantidadeTotalGestacao, quantidadeTotalLactacao, quantidadeTotalConfirmacaoGestacao
+         quantidadeTotalGestacao, quantidadeTotalLactacao, quantidadeTotalConfirmacaoGestacao,
+         taxaRetornoCio, taxaAborto, taxaParicao
       };
 
       return this.uplDto.montarRelatorioUpl(resumoRelatorio, dataInicial, dataFinal);
+   }
+
+   obterRelatorioMatrizes = async (dataInicial, dataFinal) => {
+
+      let todosCiclos = await this.cicloReproducaoRepository.obterPorIntervalo(dataInicial, dataFinal);
+      
+      let taxaRetornoCio = 0;
+      let taxaAborto = 0;
+      let taxaParicao = 0;
+
+      let resumoRelatorio = {
+      };
+
+      return this.uplDto.montarRelatorioMatrizes(resumoRelatorio, dataInicial, dataFinal);
    }
 
    obterAcontecimentosPorSetor = async (setor, dataInicio, dataFinal) => {
