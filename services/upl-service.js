@@ -110,7 +110,7 @@ export class UplService {
    }
 
    obterAnimalPorTag = async (situacoes) => {
-      
+
       let result = await this.animalRepository.obterPorTag(situacoes);
 
       return this.uplDto.montarAnimais(result);
@@ -291,16 +291,33 @@ export class UplService {
 
    obterRelatorioMatrizes = async (dataInicial, dataFinal) => {
 
+      let matrizes = await this.animalRepository.obterFemeasAtivas();
       let todosCiclos = await this.cicloReproducaoRepository.obterPorIntervalo(dataInicial, dataFinal);
-      
-      let taxaRetornoCio = 0;
-      let taxaAborto = 0;
-      let taxaParicao = 0;
 
-      let resumoRelatorio = {
-      };
+      let itens = [];
 
-      return this.uplDto.montarRelatorioMatrizes(resumoRelatorio, dataInicial, dataFinal);
+      for (let i = 0; i < matrizes.length; i++) {
+         let matriz = matrizes[i];
+         let ciclosDoAnimal = IndiceCicloReproducao.obterCiclosPorMatriz(todosCiclos, matriz.numero);
+         let quantidadeCiclosNascidos = IndiceCicloReproducao.obterQuantidadeCiclosNascidos(ciclosDoAnimal);
+         let quantidadeCiclosDesmamados = IndiceCicloReproducao.obterQuantidadeCiclosDesmamados(ciclosDoAnimal);
+
+         let item = {
+            numero: matriz.numero,
+            nln: IndiceCicloReproducao.obterNLN(ciclosDoAnimal, quantidadeCiclosNascidos),
+            nld: IndiceCicloReproducao.obterNLD(ciclosDoAnimal, quantidadeCiclosDesmamados),
+            pmln: IndiceCicloReproducao.obterPMLN(ciclosDoAnimal, quantidadeCiclosNascidos),
+            pmld: IndiceCicloReproducao.obterPMLD(ciclosDoAnimal, quantidadeCiclosDesmamados),
+            taxaMortalidade: IndiceCicloReproducao.obterTaxaMortalidade(ciclosDoAnimal),
+            taxaRetornoCio: IndiceCicloReproducao.obterTaxaRetornoCio(ciclosDoAnimal),
+            taxaParicao: IndiceCicloReproducao.obterTaxaParicao(ciclosDoAnimal),
+            taxaAborto: IndiceCicloReproducao.obterTaxaParicao(ciclosDoAnimal),
+            quantidadeCiclos: IndiceCicloReproducao.obterQuantidadeCiclosPorMatriz(todosCiclos, matriz.numero)
+         }
+         itens.push(item);
+      }
+
+      return this.uplDto.montarRelatorioMatrizes(itens, dataInicial, dataFinal);
    }
 
    obterAcontecimentosPorSetor = async (setor, dataInicio, dataFinal) => {

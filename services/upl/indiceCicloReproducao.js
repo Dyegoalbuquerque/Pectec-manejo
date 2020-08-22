@@ -1,5 +1,17 @@
 export class IndiceCicloReproducao {
 
+    static obterCiclosPorMatriz(ciclos, numero) {
+        return ciclos.filter(c => c.femeaId == numero);
+    }
+
+    static obterQuantidadeCiclosPorMatriz(ciclos, numero) {
+        let quantidadeCiclos = ciclos.reduce((sum, ciclo) => {
+            return sum + (ciclo.femeaId == numero ? 1 : 0);
+        }, 0);
+
+        return quantidadeCiclos;
+    }
+
     static obterQuantidadeCiclosNascidos(ciclos) {
         let quantidadeCiclosNascidos = ciclos.reduce((sum, ciclo) => {
             return sum + (ciclo.dataPartoReal ? 1 : 0);

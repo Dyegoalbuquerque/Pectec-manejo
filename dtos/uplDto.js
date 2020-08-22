@@ -201,23 +201,11 @@ export class UplDto {
         }
     }
 
-    montarRelatorioMatriz(ciclo) {
-
+    montarRelatorioMatrizes(itens, dataInicial, dataFinal){
         return {
-            quantidadeTotalMatriz: resumoRelatorio.quantidadeTotalMatriz,
-            quantidadeTotalReprodutor: resumoRelatorio.quantidadeTotalReprodutor,
-            quantidadeTotalMarra: resumoRelatorio.quantidadeTotalMarra,
-        }
-    }
-
-    montarRelatorioMatrizes(ciclos){
-        let itens = [];
-
-        for (let i = 0; i < ciclos.length; i++) {
-            let ciclo = ciclos[i];
-            itens.push(this.montarRelatorioMatriz(ciclo));
-        }
-
-        return itens;
+            dataInicial,
+            dataFinal,
+            itens
+        };
     }
 }

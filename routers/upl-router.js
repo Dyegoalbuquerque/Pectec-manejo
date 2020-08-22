@@ -44,6 +44,8 @@ router.get('/causa-obitos', uplController.obterCausaObitos);
 
 router.get('/relatorios/upl', uplController.obterRelatorioUpl);
 
+router.get('/relatorios/matriz', uplController.obterRelatorioMatrizes);
+
 router.get('/acontecimentos', uplController.obterAcontecimentosPorSetor);
 
 export default router;
