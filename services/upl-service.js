@@ -36,7 +36,7 @@ export class UplService {
 
       for (let i = 0; i < femeas.length; i++) {
          let item = femeas[i];
-         item.acompanhamentos = await this.cicloReproducaoRepository.obterAtivoPorFemea(item.id);
+         item.ciclos = await this.cicloReproducaoRepository.obterAtivoPorFemea(item.id);
       }
 
       return this.uplDto.montarAnimais(femeas);
@@ -150,9 +150,11 @@ export class UplService {
    }
 
    obterFichaAnimal = async (id) => {
-      let result = await this.animalRepository.obterPorId(id);
+      let animal = await this.animalRepository.obterPorId(id);
 
-      return this.uplDto.montarAnimal(result);
+      animal.ciclos = await this.cicloReproducaoRepository.obterPorFemea(id);
+
+      return this.uplDto.montarFichaAnimal(animal);
    }
 
    salvarAnimal = async (item) => {
@@ -265,7 +267,7 @@ export class UplService {
 
       let quantidadeCiclosNascidos = IndiceCicloReproducao.obterQuantidadeCiclosNascidos(todosCiclos);
       let quantidadeCiclosDesmamados = IndiceCicloReproducao.obterQuantidadeCiclosDesmamados(todosCiclos);
-      let quantidadeTotalLeitaoVivo = IndiceCicloReproducao.obterQuantidadeLeitoesVivos(todosCiclos);
+      let quantidadeTotalLeitaoVivo = IndiceCicloReproducao.obterQuantidadeVivos(todosCiclos);
       let nlnMedioGeral = IndiceCicloReproducao.obterNLN(todosCiclos, quantidadeCiclosNascidos);
       let nldMedioGeral = IndiceCicloReproducao.obterNLD(todosCiclos, quantidadeCiclosDesmamados);
       let pmlnMedioGeral = IndiceCicloReproducao.obterPMLN(todosCiclos, quantidadeCiclosNascidos);
@@ -298,7 +300,7 @@ export class UplService {
 
       for (let i = 0; i < matrizes.length; i++) {
          let matriz = matrizes[i];
-         let ciclosDoAnimal = IndiceCicloReproducao.obterCiclosPorMatriz(todosCiclos, matriz.numero);
+         let ciclosDoAnimal = IndiceCicloReproducao.obterCiclosPorMatriz(todosCiclos, matriz.id);
          let quantidadeCiclosNascidos = IndiceCicloReproducao.obterQuantidadeCiclosNascidos(ciclosDoAnimal);
          let quantidadeCiclosDesmamados = IndiceCicloReproducao.obterQuantidadeCiclosDesmamados(ciclosDoAnimal);
 
@@ -311,8 +313,8 @@ export class UplService {
             taxaMortalidade: IndiceCicloReproducao.obterTaxaMortalidade(ciclosDoAnimal),
             taxaRetornoCio: IndiceCicloReproducao.obterTaxaRetornoCio(ciclosDoAnimal),
             taxaParicao: IndiceCicloReproducao.obterTaxaParicao(ciclosDoAnimal),
-            taxaAborto: IndiceCicloReproducao.obterTaxaParicao(ciclosDoAnimal),
-            quantidadeCiclos: IndiceCicloReproducao.obterQuantidadeCiclosPorMatriz(todosCiclos, matriz.numero)
+            taxaAborto: IndiceCicloReproducao.obterTaxaAborto(ciclosDoAnimal),
+            quantidadeCiclos: IndiceCicloReproducao.obterQuantidadeCiclosPorMatriz(todosCiclos, matriz.id)
          }
          itens.push(item);
       }

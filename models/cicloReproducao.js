@@ -15,6 +15,7 @@ export class CicloReproducao {
     dataFinalIDC;
     dataFinalIdcPrevisao;
     ativo;
+    aborto;
     inceminacao;
     procedenciaReprodutor;
     quantidadeFilhote;

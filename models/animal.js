@@ -17,7 +17,7 @@ export class Animal {
     sexo;
     quantidadeCiclo;
     procedencia;
-    acompanhamentos;
+    ciclos;
     filhos;
     pertence;
 

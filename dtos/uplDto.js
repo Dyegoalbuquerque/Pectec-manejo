@@ -13,9 +13,10 @@ export class UplDto {
             tag: animal.tag,
             sexo: animal.sexo,
             raca: animal.raca,
+            quantidadeCiclo: animal.quantidadeCiclo,
             numero: animal.numero,
             dataNascimento: animal.dataNascimento,
-            acompanhamentos: animal.acompanhamentos
+            ciclos: animal.ciclos
         }
     }
 
@@ -28,6 +29,13 @@ export class UplDto {
         }
 
         return itens;
+    }
+
+    montarFichaAnimal(animal) {
+
+        animal = this.montarAnimal(animal);
+        animal.ciclos = this.montarCiclosReproducao(animal.ciclos);
+        return animal;
     }
 
     montarCicloReproducao(ciclo) {
