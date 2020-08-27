@@ -228,10 +228,10 @@ export class UplService {
 
    salvarCicloCrescimento = async (cicloReproducao) => {
 
-      if (cicloReproducao.dataDesmameReal) {
+      if (cicloReproducao.dataDesmameReal) {console.log(cicloReproducao)
          let cicloCrescimento = new CicloCrescimento();
          cicloCrescimento.gerarCiclo(cicloReproducao);
-
+         console.log(cicloCrescimento)
          await this.cicloCrescimentoRepository.salvar(cicloCrescimento);
       }
    }
@@ -270,14 +270,14 @@ export class UplService {
       let quantidadeTotalLeitaoVivo = IndiceCicloReproducao.obterQuantidadeVivos(todosCiclos);
       let nlnMedioGeral = IndiceCicloReproducao.obterNLN(todosCiclos, quantidadeCiclosNascidos);
       let nldMedioGeral = IndiceCicloReproducao.obterNLD(todosCiclos, quantidadeCiclosDesmamados);
-      let pmlnMedioGeral = IndiceCicloReproducao.obterPMLN(todosCiclos, quantidadeCiclosNascidos);
-      let pmldMedioGeral = IndiceCicloReproducao.obterPMLD(todosCiclos, quantidadeCiclosDesmamados);
+      let plnMedioGeral = IndiceCicloReproducao.obterPLN(todosCiclos, quantidadeCiclosNascidos);
+      let pldMedioGeral= IndiceCicloReproducao.obterPLD(todosCiclos, quantidadeCiclosDesmamados);
       let taxaMortalidade = IndiceCicloReproducao.obterTaxaMortalidade(todosCiclos);
       let taxaRetornoCio = IndiceCicloReproducao.obterTaxaRetornoCio(todosCiclos);
       let taxaAborto = IndiceCicloReproducao.obterTaxaAborto(todosCiclos);
       let taxaParicao = IndiceCicloReproducao.obterTaxaParicao(todosCiclos);
-      let plnMedioGeral = 0;
-      let pldMedioGeral = 0;
+      let pmlnMedioGeral = 0;
+      let pmldMedioGeral = 0;
 
       let resumoRelatorio = {
          quantidadeTotalLeitaoVivo, nlnMedioGeral, nldMedioGeral,
@@ -308,8 +308,8 @@ export class UplService {
             numero: matriz.numero,
             nln: IndiceCicloReproducao.obterNLN(ciclosDoAnimal, quantidadeCiclosNascidos),
             nld: IndiceCicloReproducao.obterNLD(ciclosDoAnimal, quantidadeCiclosDesmamados),
-            pmln: IndiceCicloReproducao.obterPMLN(ciclosDoAnimal, quantidadeCiclosNascidos),
-            pmld: IndiceCicloReproducao.obterPMLD(ciclosDoAnimal, quantidadeCiclosDesmamados),
+            pln: IndiceCicloReproducao.obterPLN(ciclosDoAnimal, quantidadeCiclosNascidos),
+            pld: IndiceCicloReproducao.obterPLD(ciclosDoAnimal, quantidadeCiclosDesmamados),
             taxaMortalidade: IndiceCicloReproducao.obterTaxaMortalidade(ciclosDoAnimal),
             taxaRetornoCio: IndiceCicloReproducao.obterTaxaRetornoCio(ciclosDoAnimal),
             taxaParicao: IndiceCicloReproducao.obterTaxaParicao(ciclosDoAnimal),

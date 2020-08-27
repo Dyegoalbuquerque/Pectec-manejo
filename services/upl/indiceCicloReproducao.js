@@ -95,7 +95,7 @@ export class IndiceCicloReproducao {
         return this.calcularDivisao(nldMedioGeral, quantidadeCiclosDesmamados);
     }
 
-    static obterPMLN(ciclos, quantidadeCiclosNascidos) {
+    static obterPLN(ciclos, quantidadeCiclosNascidos) {
 
         let pmlnMedioGeral = ciclos.reduce((sum, ciclo) => {
             return sum + (ciclo.pesoFilhoteNascimento ? ciclo.pesoFilhoteNascimento : 0);
@@ -104,7 +104,7 @@ export class IndiceCicloReproducao {
         return this.calcularDivisao(pmlnMedioGeral, quantidadeCiclosNascidos);
     }
 
-    static obterPMLD(ciclos, quantidadeCiclosDesmamados) {
+    static obterPLD(ciclos, quantidadeCiclosDesmamados) {
 
         let pmldMedioGeral = ciclos.reduce((sum, ciclo) => {
             return sum + (ciclo.pesoFilhoteDesmamado ? ciclo.pesoFilhoteDesmamado : 0);

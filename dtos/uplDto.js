@@ -13,6 +13,7 @@ export class UplDto {
             tag: animal.tag,
             sexo: animal.sexo,
             raca: animal.raca,
+            nome: animal.nome,
             quantidadeCiclo: animal.quantidadeCiclo,
             numero: animal.numero,
             dataNascimento: animal.dataNascimento,

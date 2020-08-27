@@ -25,7 +25,7 @@ export class CicloCrescimento {
 
     definirDataEncerramento(dataNascimento){
         let dataDeInicio = new Date(dataNascimento);
-        let diasAteEncerrar = dataNascimento.getDate() - 1 + 64;
+        let diasAteEncerrar = dataDeInicio.getDate() - 1 + 64;
 
         this.dataEncerramento = dataDeInicio;
         this.dataEncerramento.setDate(diasAteEncerrar);
