@@ -29,7 +29,7 @@
     "http-proxy": "^1.18.0",
     "swagger-jsdoc": "^3.5.0",
     "swagger-ui-express": "^4.1.2",
-    "grpc": "^1.24.2",
+    "grpc": "^1.24.9",
     "grpc-caller": "^0.13.0",
     "typedi": "^0.8.0"
   }
