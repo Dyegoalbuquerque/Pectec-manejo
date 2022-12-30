@@ -27,7 +27,7 @@
     "class-transformer": "^0.2.3",
     "dotenv": "^16.0.3",
     "express": "^4.17.1",
-    "grpc": "^1.24.2",
+    "grpc": "^1.24.11",
     "grpc-caller": "^0.13.0",
     "http-proxy": "^1.18.0",
     "mongodb": "^4.13.0",
