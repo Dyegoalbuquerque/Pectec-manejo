@@ -5,7 +5,7 @@ import { Animal } from '../models/animal';
 export class AnimalRepository extends Repository{
 
     constructor() {
-        super(Animal);
+        super("animais");
     }
 
     async obterPorEspecie(especieId) {
@@ -44,7 +44,7 @@ export class AnimalRepository extends Repository{
     }
 
     async obterPorSexoTag(sexo, tag) {
-        let result = this.dao.obterTodos();
+        let result = await this.obterTodos();
 
         result = result.filter(a => a.tag == tag && a.sexo == sexo);
 

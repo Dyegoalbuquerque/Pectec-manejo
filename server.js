@@ -1,12 +1,14 @@
 import Express from 'express';
 import bodyParser from 'body-parser';
 import routes from './index';
+import dotenv from 'dotenv';
 
 export class App {
   
   app = Express();
 
   startup(port) {
+    dotenv.config()
     this.setupRoutes();
 
     this.app.listen(port, () => console.log(`web api running http://localhost:${port}`));

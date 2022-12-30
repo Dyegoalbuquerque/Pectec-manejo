@@ -4,39 +4,48 @@ import { Dao } from '../config/dao';
 export class Repository {
 
     constructor(tipo) {
+        this.tipo = tipo;
         this.dao = new Dao(tipo);
     }
 
-    dao;
+    async obterRepositorio() {
+        const conexao = await this.dao.connect();
+        return await conexao.collection(this.tipo);
+    }
 
     async obterTodos() {
-        let result = this.dao.obterTodos();
-
-        return result;
+        const repositorio = await this.obterRepositorio();
+        return repositorio.find().toArray();
     }
 
     async obterPorId(id) {
-        let item = this.dao.buscarPorId(id);
+        const repositorio = await this.obterConexao();
 
-        return item;
+        return repositorio.findOne({ _id: ObjectId(id) });
     }
 
     async salvar(item) {
-        let id = this.dao.adicionar(item);
-        item.id = id;
+        const repositorio = await this.obterConexao();
+        let novoItem = repositorio.insertOne(item);
 
-        return item.id;
+        return novoItem.id;
     }
 
     async max() {
-        return this.dao.max();
+        const repositorio = await this.obterConexao();
+        return repositorio.findOne({$query:{}, $orderby:{_id:-1}})
     }
 
     async remover(id) {
-        this.dao.removerPorId(id);
+        const repositorio = await this.obterConexao();
+        const resultado = await repositorio.deleteOne({ _id: ObjectId(id) });
+        return resultado;
+
     }
 
-    async atualizar(item) {
-        return this.dao.atualizar(item);
+    async atualizar(filtro, item) {
+        const repositorio = await this.obterConexao();
+        let resultado = repositorio.updateOne(filtro, { $set: item });
+        return resultado;
     }
 }
