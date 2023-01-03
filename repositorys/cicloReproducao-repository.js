@@ -1,11 +1,10 @@
 
 import { Repository } from './repository';
-import { CicloReproducao } from '../models/cicloReproducao';
 
 export class CicloReproducaoRepository extends Repository{
 
     constructor() {
-        super(CicloReproducao);
+        super("cicloReproducoes");
     }
 
     async obterPorFemea(femeaId) {

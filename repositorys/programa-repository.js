@@ -1,10 +1,9 @@
 import { Repository } from './repository';
-import { Programa } from '../models/programa';
 
 export class ProgramaRepository extends Repository {
 
     constructor() {
-        super(Programa);
+        super("programas");
     }
 
     obterTodos = async () => {

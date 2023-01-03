@@ -1,10 +1,10 @@
 
 import { Repository } from './repository';
 
-export class CicloCrescimentoRepository extends Repository{
+export class CicloTermicacaoRepository extends Repository{
 
     constructor() {
-        super("cicloCrescimentos");
+        super("cicloTerminacoes");
     }
 
     obterAtivos = async () => {

@@ -1,10 +1,9 @@
 import { Repository } from './repository';
-import { Tag } from '../models/tag';
 
 export class TagRepository extends Repository {
 
     constructor() {
-        super(Tag);
+        super("tags");
     }
 
     async obterPorSetor(setor) {

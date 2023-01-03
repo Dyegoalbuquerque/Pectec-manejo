@@ -1,11 +1,10 @@
 
 import { Repository } from './repository';
-import { AcontecimentoItem } from '../models/acontecimentoItem';
 
 export class AcontecimentoItemRepository extends Repository {
 
     constructor() {
-        super(AcontecimentoItem);
+        super("acontetimentoItens");
     }
 
     obterPorAcontecimento = async (acontecimentoId) => {

@@ -1,12 +1,11 @@
 
 import { Repository } from './repository';
-import { Consumo } from '../models/consumo';
 import { QueryHelper } from './helpers/query-helper';
 
 export class ConsumoRepository extends Repository {
 
     constructor() {
-        super(Consumo);
+        super("consumos");
     }
 
     async obterPorCategoria(categoriaId){
