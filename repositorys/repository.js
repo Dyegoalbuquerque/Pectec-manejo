@@ -18,6 +18,16 @@ export class Repository {
         return repositorio.find().toArray();
     }
 
+    async filtrar(query) {
+        const repositorio = await this.obterRepositorio();
+        return repositorio.find(query).toArray();
+    }
+
+    async contar(query) {
+        const repositorio = await this.obterRepositorio();
+        return query ? repositorio.count(query) : repositorio.count();
+    }
+
     async obterPorId(id) {
         const repositorio = await this.obterConexao();
 

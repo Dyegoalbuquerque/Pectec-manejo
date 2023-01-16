@@ -9,15 +9,13 @@ export class ConsumoRepository extends Repository {
     }
 
     async obterPorCategoria(categoriaId){
-        let todos = this.dao.obterTodos();
+        let query = {categoriaId: categoriaId} 
 
-        let filtrados = todos.filter(c => c.categoriaId == categoriaId);
-
-        return filtrados;
+        return await this.filtrar(query);
     }
 
     async obterComFiltro(parametroQuery){
-        let todos = this.dao.obterTodos();
+        let todos = await this.obterTodos();
 
         return QueryHelper.aplicarQuery(todos, parametroQuery);
     }

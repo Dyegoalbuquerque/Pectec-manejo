@@ -1,6 +1,5 @@
 
 import { Repository } from './repository';
-import { Animal } from '../models/animal';
 
 export class AnimalRepository extends Repository{
 
@@ -9,61 +8,46 @@ export class AnimalRepository extends Repository{
     }
 
     async obterPorEspecie(especieId) {
-        let result = this.dao.obterTodos();
+        let query = {especieId: especieId};
 
-        result = result.filter(a => a.especieId == especieId);
-
-        return result;
+        return await this.filtrar(query);
     }
 
     async obterPorNumero(numero) {
-        let result = this.dao.obterTodos();
+        let query = {numero: numero};
 
-        result = result.filter(a => a.numero == numero);
-        result = result[0];
-
-        return result;
+        return await this.filtrar(query);
     }
 
     async obterQuantidadePorTag(tag) {
-        let result = this.dao.obterTodos();
+        let query = {tag: tag};
 
-        result = result.filter(a => a.tag == tag);
-
-        return result.length;
+        return await this.contar(query);
     }
 
     async obterFemeasAtivas() {
-        let result = this.dao.obterTodos();
-
         let tags = ["G", "L", "CG", "IDC", "M"];
 
-        result = result.filter(a => a.sexo == 'F' && tags.includes(a.tag));
+        let query = { sexo: "F", tag: { $in: tags } };
 
-        return result;
+        return await this.filtrar(query);
     }
 
     async obterPorSexoTag(sexo, tag) {
-        let result = await this.obterTodos();
+        let query = {tag: tag, sexo: sexo};
 
-        result = result.filter(a => a.tag == tag && a.sexo == sexo);
-
-        return result;
+        return await this.filtrar(query);
     }
 
     async obterPorSituacao(situacoes) {
-        let result = this.dao.obterTodos();
+        let query = { tag: { $in: situacoes } };
 
-        result = result.filter(r => situacoes.includes(r.tag));
-
-        return result;
+        return await this.filtrar(query);
     }
 
-    async obterFilhotesPorFemea(femeaId){
-        let result = this.dao.obterTodos();
+    async obterFilhotesPorFemea(femeaId){        
+        let query = {maeId: femeaId};
 
-        result = result.filter(r => r.maeId == femeaId);
-
-        return result;
+        return await this.filtrar(query);
     }
 }

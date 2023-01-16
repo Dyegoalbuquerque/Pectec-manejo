@@ -8,34 +8,26 @@ export class EstoqueRepository extends Repository {
    }
 
    async obterPorIds(ids) {
-      let result = await this.obterTodos();
+      let query = { id: { $in: ids } };
 
-      result = result.filter(r => ids.includes(r.id));
-
-      return result;
+      return await this.filtrar(query);
    }
 
    async obterPorSubcategorias(subcategoriaIds) {
-      let result = this.dao.obterTodos();
+      let query = { subcategoriaId: { $in: subcategoriaIds } };
 
-      result = result.filter(r => subcategoriaIds.includes(r.subcategoriaId));
-
-      return result;
+      return await this.filtrar(query);
    }
 
    async obterEstoqueRealPorSubcategoria(subcategoriaId) {
-      let result = this.dao.obterTodos();
+      let query = { subcategoriaId: subcategoriaId, quantidadeEntradaReal: { $gt: 0 } };
 
-      result = result.filter(r => r.subcategoriaId == subcategoriaId && r.quantidadeEntradaReal > 0);
-
-      return result;
+      return await this.filtrar(query);
    }
 
    async obterEstoqueReal(subcategoriaIds) {
-      let result = this.dao.obterTodos();
+      let query = { subcategoriaId: { $in: subcategoriaIds }, quantidadeEntradaReal: { $gt: 0 } };
 
-      result = result.filter(r => subcategoriaIds.includes(r.subcategoriaId) && r.quantidadeEntradaReal > 0);
-
-      return result;
+      return await this.filtrar(query);
    }
 }

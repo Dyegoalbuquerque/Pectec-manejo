@@ -7,24 +7,22 @@ export class ProgramaRepository extends Repository {
     }
 
     obterTodos = async () => {
-        let todos = this.dao.obterTodos();
+        let todos = await this.obterTodos();
 
         return todos;
     }
 
     obterPorTipo = async (tipoPrograma) => {
-        let todos = this.dao.obterTodos();
+        let query = {tipo: tipoPrograma} 
 
-        let programas = todos.filter(f => f.tipo == tipoPrograma);
+        let programas = await this.filtrar(query);
 
         return programas.length > 0 ? programas[0] : {};
     }
 
-    obterPorSetor = async (setor) => {
-        let todos = this.dao.obterTodos();
+    obterPorSetor = async (setor) => {        
+        let query = {setor: setor} 
 
-        let programas = todos.filter(f => f.setor == setor);
-        
-        return programas;
+        return await this.filtrar(query);
     }
 }

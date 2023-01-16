@@ -8,26 +8,20 @@ export class CicloReproducaoRepository extends Repository{
     }
 
     async obterPorFemea(femeaId) {
-        let todos = this.dao.obterTodos();
+        let query = {femeaId: femeaId} 
 
-        let result = todos.filter(e => e.femeaId == femeaId);
-
-        return result;
+        return await this.filtrar(query);
     }
 
     async obterAtivoPorFemea(femeaId) {
-        let todos = this.dao.obterTodos();
+        let query = {femeaId: femeaId, ativo: true} 
 
-        let result = todos.filter(e => e.femeaId == femeaId && e.ativo);
-
-        return result;
+        return await this.filtrar(query);
     }
 
-    async obterPorIntervalo(dataInicial, dataFinal) {
-        let todos = this.dao.obterTodos();
+    async obterPorIntervalo(dataInicial, dataFinal) {        
+        let query = {dataFecundacao:{ $gte: dataInicial, $lt: dataFinal}} 
 
-        let result = todos.filter(e => new Date(e.dataFecundacao).getTime() >= new Date(dataInicial).getTime() && 
-                                       new Date(e.dataFecundacao).getTime() <= new Date(dataFinal).getTime());
-        return result;
+        return await this.filtrar(query);
     }
 }

@@ -6,21 +6,15 @@ export class TagRepository extends Repository {
         super("tags");
     }
 
-    async obterPorSetor(setor) {
-        let result = this.dao.obterTodos();
-        
-  
-        result = result.filter(r => r.setores.includes(setor));
-  
-        return result;
+    async obterPorSetor(setor) {        
+        let query = { setores: { $in: setor } };
+
+        return await this.filtrar(query);
      }
 
      async obterPorTipo(tipo) {
-        let result = this.dao.obterTodos();
-        
-  
-        result = result.filter(r => r.tipo == tipo);
-  
-        return result;
+        let query = { tipo: tipo};
+
+        return await this.filtrar(query);
      }
 }

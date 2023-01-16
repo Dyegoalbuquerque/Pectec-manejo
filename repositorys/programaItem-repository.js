@@ -7,35 +7,26 @@ export class ProgramaItemRepository extends Repository {
     }
 
     obterPorPrograma = async (programaId) => {
-        let result = this.dao.obterTodos();
+        let query = {programaId: programaId} 
 
-        result = result.filter(a => a.programaId == programaId);
-
-        return result;
+        return await this.filtrar(query);
     }
 
     obterPorTag = async (tagId) => {
-        let result = this.dao.obterTodos();
+        let query = {tagId: tagId} 
 
-        result = result.filter(a => a.tagId == tagId);
-
-        return result;
+        return await this.filtrar(query);
     }
 
-    obterPorTagIds = async (tagIds) => {
-        let result = this.dao.obterTodos();
+    obterPorTagIds = async (tagIds) => {        
+        let query = { tagId: { $in: tagIds } };
 
-        result = result.filter(r => tagIds.includes(r.tagId));
-
-        return result;
+        return await this.filtrar(query);
     }
 
-    obterAtivosPorProgramaIds = async (programaIds) => {
-        let result = this.dao.obterTodos();
+    obterAtivosPorProgramaIds = async (programaIds) => {  
+        let query = { programaId: { $in: programaIds }, ativo: true };
 
-        result = result.filter(r => programaIds.includes(r.programaId) && r.ativo);
-
-        return result;
-
+        return await this.filtrar(query);
     }
 }

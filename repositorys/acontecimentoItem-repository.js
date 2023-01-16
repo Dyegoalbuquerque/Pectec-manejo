@@ -8,10 +8,8 @@ export class AcontecimentoItemRepository extends Repository {
     }
 
     obterPorAcontecimento = async (acontecimentoId) => {
-        let result = this.dao.obterTodos();
+        let query = {acontecimentoId: acontecimentoId};
 
-        result = result.filter(a => a.acontecimentoId == acontecimentoId);
-
-        return result;
+        return await this.filtrar(query);
     }
 }

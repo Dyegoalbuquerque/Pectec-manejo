@@ -8,19 +8,14 @@ export class CicloCrescimentoRepository extends Repository{
     }
 
     obterAtivos = async () => {
-        let todos = this.dao.obterTodos();
+        let query = {ativo: true};
 
-        let result = todos.filter(e => e.ativo);
-
-        return result;
+        return await this.filtrar(query);
     }
 
     obterPorIntervalo = async (dataInicial, dataFinal) => {
-        let todos = this.dao.obterTodos();
+        let query = {dataEntrada:{ $gte: dataInicial, $lt: dataFinal}} 
 
-        let result = todos.filter(e => new Date(e.dataEntrada).getTime() >= new Date(dataInicial).getTime() && 
-                                       new Date(e.dataEntrada).getTime() <= new Date(dataFinal).getTime());
-  
-        return result;
+        return await this.filtrar(query);
     }
 }
