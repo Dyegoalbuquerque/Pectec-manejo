@@ -1,10 +1,11 @@
 
 import { Repository } from './repository';
+import { Acontecimento } from '../models/acontecimento';
 
 export class AcontecimentoRepository extends Repository {
 
     constructor() {
-        super("acontecimentos");
+        super("acontecimentos", Acontecimento);
     }
 
     verificarSeExiste = async (setor, dataInicial, dataFinal) => {

@@ -1,10 +1,11 @@
 
 import { Repository } from './repository';
+import { Estoque } from '../models/estoque';
 
 export class EstoqueRepository extends Repository {
 
    constructor() {
-      super("estoques");
+      super("estoques", Estoque);
    }
 
    async obterPorIds(ids) {

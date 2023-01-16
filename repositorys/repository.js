@@ -1,9 +1,11 @@
 
 import { Dao } from '../config/dao';
+import { plainToClass } from "class-transformer";
 
 export class Repository {
 
-    constructor(tipo) {
+    constructor(tipo, classe) {
+        this.classe = classe;
         this.tipo = tipo;
         this.dao = new Dao(tipo);
     }
@@ -15,47 +17,53 @@ export class Repository {
 
     async obterTodos() {
         const repositorio = await this.obterRepositorio();
-        return repositorio.find().toArray();
+        let items = await repositorio.find().toArray();
+        
+        return plainToClass(this.classe, items);
     }
 
     async filtrar(query) {
         const repositorio = await this.obterRepositorio();
-        return repositorio.find(query).toArray();
+        let items = await repositorio.find(query).toArray();     
+
+        return plainToClass(this.classe, items);
     }
 
     async contar(query) {
         const repositorio = await this.obterRepositorio();
-        return query ? repositorio.count(query) : repositorio.count();
+        return query ? await repositorio.count(query) :  await repositorio.count();
     }
 
     async obterPorId(id) {
-        const repositorio = await this.obterRepositorio();
+        const repositorio = await this.obterConexao();
 
-        return repositorio.findOne({ _id: ObjectId(id) });
+        let item = await repositorio.findOne({ _id: ObjectId(id) });
+        
+        return plainToClass(classe, item);
     }
 
     async salvar(item) {
-        const repositorio = await this.obterRepositorio();
-        let novoItem = repositorio.insertOne(item);
+        const repositorio = await this.obterConexao();
+        let novoItem = await repositorio.insertOne(item);
 
         return novoItem.id;
     }
 
     async max() {
-        const repositorio = await this.obterRepositorio();
-        return repositorio.findOne({$query:{}, $orderby:{_id:-1}})
+        const repositorio = await this.obterConexao();
+        return await repositorio.findOne({$query:{}, $orderby:{_id:-1}})
     }
 
     async remover(id) {
-        const repositorio = await this.obterRepositorio();
+        const repositorio = await this.obterConexao();
         const resultado = await repositorio.deleteOne({ _id: ObjectId(id) });
         return resultado;
 
     }
 
     async atualizar(filtro, item) {
-        const repositorio = await this.obterRepositorio();
-        let resultado = repositorio.updateOne(filtro, { $set: item });
+        const repositorio = await this.obterConexao();
+        let resultado = await repositorio.updateOne(filtro, { $set: item });
         return resultado;
     }
 }

@@ -1,10 +1,11 @@
 
 import { Repository } from './repository';
+import { CicloTerminacao } from '../models/cicloTerminacao';
 
 export class CicloTermicacaoRepository extends Repository{
 
     constructor() {
-        super("cicloTerminacoes");
+        super("cicloTerminacoes", CicloTerminacao);
     }
 
     obterAtivos = async () => {

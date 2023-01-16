@@ -1,10 +1,11 @@
 
 import { Repository } from './repository';
+import { Animal } from '../models/animal';
 
 export class AnimalRepository extends Repository{
 
     constructor() {
-        super("animais");
+        super("animais", Animal);
     }
 
     async obterPorEspecie(especieId) {
