@@ -7,7 +7,7 @@ export class TagRepository extends Repository {
     }
 
     async obterPorSetor(setor) {        
-        let query = { setores: { $in: setor } };
+        let query = { setores: { $in: [setor] } };
 
         return await this.filtrar(query);
      }

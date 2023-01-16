@@ -29,32 +29,32 @@ export class Repository {
     }
 
     async obterPorId(id) {
-        const repositorio = await this.obterConexao();
+        const repositorio = await this.obterRepositorio();
 
         return repositorio.findOne({ _id: ObjectId(id) });
     }
 
     async salvar(item) {
-        const repositorio = await this.obterConexao();
+        const repositorio = await this.obterRepositorio();
         let novoItem = repositorio.insertOne(item);
 
         return novoItem.id;
     }
 
     async max() {
-        const repositorio = await this.obterConexao();
+        const repositorio = await this.obterRepositorio();
         return repositorio.findOne({$query:{}, $orderby:{_id:-1}})
     }
 
     async remover(id) {
-        const repositorio = await this.obterConexao();
+        const repositorio = await this.obterRepositorio();
         const resultado = await repositorio.deleteOne({ _id: ObjectId(id) });
         return resultado;
 
     }
 
     async atualizar(filtro, item) {
-        const repositorio = await this.obterConexao();
+        const repositorio = await this.obterRepositorio();
         let resultado = repositorio.updateOne(filtro, { $set: item });
         return resultado;
     }
