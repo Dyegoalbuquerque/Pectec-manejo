@@ -14,11 +14,17 @@ export class UTService {
       let ciclos = await this.cicloTerminacaoRepository.obterAtivos();
       let locais = await this.localRepository.obterTodos();
 
-      for(let i=0; i < ciclos.length; i++){
+      for (let i = 0; i < ciclos.length; i++) {
          let ciclo = ciclos[i];
          ciclo.local = locais.filter(l => l.id == ciclo.localId)[0];
       }
 
       return this.utDto.montarCiclosTerminacao(ciclos);
    }
+
+   salvarCicloTerminacao = async (ciclo) => {
+      await this.cicloTerminacaoRepository.salvar(ciclo);
+
+   }
+
 }

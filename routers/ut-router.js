@@ -8,6 +8,7 @@ let utController = Container.get(UTController);
 
 router.get('/ciclos-terminacao/ativo', utController.obterCiclosTerminacaoAtivo);
 
+router.post('/ciclo-terminacao', utController.salvarCicloTerminacao);
 
 
 export default router;

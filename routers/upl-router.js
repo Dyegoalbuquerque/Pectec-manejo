@@ -46,6 +46,6 @@ router.get('/relatorios/upl', uplController.obterRelatorioUpl);
 
 router.get('/relatorios/matriz', uplController.obterRelatorioMatrizes);
 
-router.get('/acontecimentos', uplController.obterAcontecimentosPorSetor);
+router.get('/locais', uplController.obterLocais);
 
 export default router;

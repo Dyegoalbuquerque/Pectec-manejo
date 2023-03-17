@@ -7,8 +7,7 @@ import { ProgramaRepository } from '../repositorys/programa-repository';
 import { ProgramaItemRepository } from '../repositorys/programaItem-repository';
 import { SubcategoriaRepository } from '../repositorys/subCategoria-repository';
 import { CausaObitoRepository } from '../repositorys/causaObito-repository';
-import { AcontecimentoRepository } from '../repositorys/acontecimento-repository';
-import { AcontecimentoItemRepository } from '../repositorys/acontecimentoItem-repository';
+import { LocalRepository } from '../repositorys/local-repository';
 import { UplDto } from '../dtos/uplDto';
 import { IndiceCicloReproducao } from './upl/indiceCicloReproducao';
 import { IndiceAnimal } from './geral/indiceAnimal';
@@ -26,8 +25,7 @@ export class UplService {
       this.especieRepository = container.get(EspecieRepository);
       this.subcategoriaRepository = container.get(SubcategoriaRepository);
       this.causaObitoRepository = container.get(CausaObitoRepository);
-      this.acontecimentoRepository = container.get(AcontecimentoRepository);
-      this.acontecimentoItemRepository = container.get(AcontecimentoItemRepository);
+      this.localRepository = container.get(LocalRepository);
       this.uplDto = container.get(UplDto);
    }
 
@@ -321,34 +319,10 @@ export class UplService {
 
       return this.uplDto.montarRelatorioMatrizes(itens, dataInicial, dataFinal);
    }
+     
+   obterLocais = async () => {
+      let locais = await this.localRepository.obterTodos();
 
-   obterAcontecimentosPorSetor = async (setor, dataInicio, dataFinal) => {
-
-      let existeAcontecimentos = await this.acontecimentoRepository.verificarSeExiste(setor, dataInicio, dataFinal);
-
-      if (existeAcontecimentos) {
-         let acotecimentosDoIntervalo = await this.acontecimentoRepository.obterPorIntervalo(setor, dataInicio, dataFinal);
-         let itens = [];
-
-         for (let i = 0; i < acotecimentosDoIntervalo.length; i++) {
-            let acontecimento = acotecimentosDoIntervalo[i];
-            let itensConsultados = await this.acontecimentoItemRepository.obterPorAcontecimento(acontecimento.id);
-            itens = itens.concat(itensConsultados);
-         }
-         return itens;
-
-      } else {
-
-         let programas = await this.programaRepository.obterPorSetor(setor);
-         let programaIds = programas.map(i => i.id);
-         let programaItensAtivos = await this.programaItemRepository.obterAtivosPorProgramaIds(programaIds);
-      }
-      /*
-      let tags = await this.tagRepository.obterPorSetor(setor);
-      let tagIds = tags.map(i => i.id);
-      let programaItens = await this.programaItemRepository.obterPorTagIds(tagIds);
-      */
-
-      return [];
+      return locais;
    }
 }

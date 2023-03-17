@@ -266,24 +266,22 @@ export class UplController extends BaseController {
       }
    }
 
-   obterAcontecimentosPorSetor = async (req, res) => {
-      try {
-         let setor = req.query.setor;
-         let dataInicio = req.query.dataInicio;
-         let dataFinal = req.query.dataFinal;
-         let dados = await this.uplService.obterAcontecimentosPorSetor(setor, dataInicio, dataFinal);
-         return res.status(200).json(dados);
-
-      } catch (e) {
-         return this.tratarErro(e, res);
-      }
-   }
 
    obterRelatorioMatrizes = async (req, res) => {
       try {
          let dataInicial = req.query.dataInicial;
          let dataFinal = req.query.dataFinal;
          let data = await this.uplService.obterRelatorioMatrizes(dataInicial, dataFinal);
+         return res.status(200).json(data);
+
+      } catch (e) {
+         return this.tratarErro(e, res);
+      }
+   }
+
+   obterLocais = async (req, res) => {
+      try {
+         let data = await this.uplService.obterLocais();
          return res.status(200).json(data);
 
       } catch (e) {
