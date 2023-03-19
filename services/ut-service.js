@@ -23,6 +23,13 @@ export class UTService {
    }
 
    salvarCicloTerminacao = async (ciclo) => {
+      let dataEncerramento = new Date(ciclo.dataNascimento);
+      let totalDiasEncerramento = dataEncerramento.getDate() + ciclo.tempoCiclo;
+      dataEncerramento.setDate(totalDiasEncerramento); 
+
+      ciclo.dataEncerramento = dataEncerramento.toJSON();
+      ciclo.ativo = true;
+      
       await this.cicloTerminacaoRepository.salvar(ciclo);
 
    }

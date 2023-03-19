@@ -1,11 +1,11 @@
 
 import { Repository } from './repository';
-import { CicloCrescimento } from '../models/cicloCrescimento';
+import { CicloCreche } from '../models/cicloCreche';
 
-export class CicloCrescimentoRepository extends Repository{
+export class CicloCrecheRepository extends Repository{
 
     constructor() {
-        super("cicloCrescimentos", CicloCrescimento);
+        super("cicloCreches", CicloCreche);
     }
 
     obterAtivos = async () => {

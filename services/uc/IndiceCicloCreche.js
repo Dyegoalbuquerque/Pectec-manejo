@@ -1,4 +1,4 @@
-export class IndiceCicloCrescimento {
+export class IndiceCicloCreche {
 
     static obterQuantidadeAnimaisQueEntraram(ciclos) {
         let quantidadeAnimaisQueEntraram = ciclos.reduce((sum, ciclo) => {

@@ -1,10 +1,8 @@
 
-
-export class CicloTerminacao {
+export class CicloCreche {
 
     constructor() { }
 
-   
     id;
     femeaId;
     dataNascimento;

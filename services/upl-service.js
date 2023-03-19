@@ -1,6 +1,6 @@
 import { AnimalRepository } from '../repositorys/animal-repository';
 import { CicloReproducaoRepository } from '../repositorys/cicloReproducao-repository';
-import { CicloCrescimentoRepository } from '../repositorys/cicloCrescimento-repository';
+import { CicloCrecheRepository } from '../repositorys/cicloCreche-repository';
 import { TagRepository } from '../repositorys/tag-repository';
 import { EspecieRepository } from '../repositorys/especie-repository';
 import { ProgramaRepository } from '../repositorys/programa-repository';
@@ -11,14 +11,14 @@ import { LocalRepository } from '../repositorys/local-repository';
 import { UplDto } from '../dtos/uplDto';
 import { IndiceCicloReproducao } from './upl/indiceCicloReproducao';
 import { IndiceAnimal } from './geral/indiceAnimal';
-import { CicloCrescimento } from '../models/cicloCrescimento';
+import { CicloCreche } from '../models/cicloCreche';
 
 export class UplService {
 
    constructor(container) {
       this.animalRepository = container.get(AnimalRepository);
       this.cicloReproducaoRepository = container.get(CicloReproducaoRepository);
-      this.cicloCrescimentoRepository = container.get(CicloCrescimentoRepository);
+      this.cicloCrecheRepository = container.get(CicloCrecheRepository);
       this.programaRepository = container.get(ProgramaRepository);
       this.programaItemRepository = container.get(ProgramaItemRepository);
       this.tagRepository = container.get(TagRepository);
@@ -95,7 +95,7 @@ export class UplService {
       let result = await this.cicloReproducaoRepository.atualizar(item);
 
       if (item.alterouDataDesmame(ciclo) && item.existeDesmamados()) {
-         await this.salvarCicloCrescimento(item);
+         await this.salvarCicloCreche(item);
       }
 
       return result;
@@ -224,13 +224,13 @@ export class UplService {
       return item;
    }
 
-   salvarCicloCrescimento = async (cicloReproducao) => {
+   salvarCicloCreche = async (cicloReproducao) => {
 
       if (cicloReproducao.dataDesmameReal) {console.log(cicloReproducao)
-         let cicloCrescimento = new CicloCrescimento();
-         cicloCrescimento.gerarCiclo(cicloReproducao);
-         console.log(cicloCrescimento)
-         await this.cicloCrescimentoRepository.salvar(cicloCrescimento);
+         let cicloCreche = new CicloCreche();
+         cicloCreche.gerarCiclo(cicloReproducao);
+         console.log(cicloCreche)
+         await this.cicloCrecheRepository.salvar(cicloCreche);
       }
    }
 
