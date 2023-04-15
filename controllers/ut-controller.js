@@ -32,4 +32,15 @@ export class UTController extends BaseController {
          return this.tratarErro(e, res);
       }
    }
+
+   atualizarCicloTerminacao = async (req, res) => {
+
+      try {
+         var data = await this.utService.atualizarCicloTerminacao(req.body);
+         return res.send(200, data);
+
+      } catch (e) {
+         return this.tratarErro(e, res);
+      }
+   }
 }

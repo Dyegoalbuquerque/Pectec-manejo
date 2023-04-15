@@ -45,4 +45,15 @@ export class UCController extends BaseController {
          return this.tratarErro(e, res);
       }
    }
+
+   atualizarCicloCreche = async (req, res) => {
+
+      try {
+         var data = await this.ucService.atualizarCicloCreche(req.body);
+         return res.send(200, data);
+
+      } catch (e) {
+         return this.tratarErro(e, res);
+      }
+   }
 }

@@ -1,6 +1,7 @@
 
 import { Dao } from '../config/dao';
 import { plainToClass } from "class-transformer";
+import { ObjectId } from "mongodb";
 
 export class Repository {
 
@@ -18,13 +19,17 @@ export class Repository {
     async obterTodos() {
         const repositorio = await this.obterRepositorio();
         let items = await repositorio.find().toArray();
+
+        items.map(i => i.id = i._id.toString());
         
         return plainToClass(this.classe, items);
     }
 
     async filtrar(query) {
         const repositorio = await this.obterRepositorio();
-        let items = await repositorio.find(query).toArray();     
+        let items = await repositorio.find(query).toArray();  
+
+        items.map(i => i.id = i._id.toString());
 
         return plainToClass(this.classe, items);
     }
@@ -36,10 +41,12 @@ export class Repository {
 
     async obterPorId(id) {
         const repositorio = await this.obterRepositorio();
-
-        let item = await repositorio.findOne({ _id: ObjectId(id) });
+    
+        let item = await repositorio.find({_id : ObjectId(id)});
         
-        return plainToClass(classe, item);
+        item =  plainToClass(this.classe, item);
+        item.id = id;
+        return item
     }
 
     async salvar(item) {
@@ -61,9 +68,10 @@ export class Repository {
 
     }
 
-    async atualizar(filtro, item) {
+    async atualizar(id, item) {console.log(id)
+        console.log(item)
         const repositorio = await this.obterRepositorio();
-        let resultado = await repositorio.updateOne(filtro, { $set: item });
+        let resultado = await repositorio.updateOne({ _id: ObjectId(id) }, { $set: item });
         return resultado;
     }
 }

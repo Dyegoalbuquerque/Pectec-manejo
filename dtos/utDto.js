@@ -20,7 +20,10 @@ export class UTDto {
             quantidadeSeparado: ciclo.quantidadeSeparado,
             quantidadeSemDestino: ciclo.quantidadeSemDestino,
             valorEntrada: ciclo.valorEntrada,
-            valorSaida: ciclo.valorSaida
+            valorSaida: ciclo.valorSaida,
+            tempoCiclo: ciclo.tempoCiclo,
+            localId: ciclo.localId,
+            pesoAnimalEntrada: ciclo.pesoAnimalEntrada
         }
     }
 

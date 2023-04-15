@@ -34,4 +34,15 @@ export class UTService {
 
    }
 
+   atualizarCicloTerminacao = async (item) => {
+
+      let cicloTerminacao = await this.cicloTerminacaoRepository.obterPorId(item.id);
+
+      if(cicloTerminacao){
+         return await this.cicloTerminacaoRepository.atualizar(item.id, item);
+      }
+
+      return 0;
+  }
+
 }

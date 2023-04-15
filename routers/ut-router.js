@@ -10,5 +10,6 @@ router.get('/ciclos-terminacao/ativo', utController.obterCiclosTerminacaoAtivo);
 
 router.post('/ciclo-terminacao', utController.salvarCicloTerminacao);
 
+router.put('/ciclo-terminacao', utController.atualizarCicloTerminacao);
 
 export default router;

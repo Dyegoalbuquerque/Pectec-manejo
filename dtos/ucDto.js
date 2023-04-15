@@ -4,7 +4,7 @@ export class UCDto {
     constructor() {
     }
 
-    montarCicloCrescimento(ciclo) {
+    montarCicloCreche(ciclo) {
 
         return {
             id: ciclo.id,
@@ -20,16 +20,19 @@ export class UCDto {
             quantidadeSeparado: ciclo.quantidadeSeparado,
             quantidadeSemDestino: ciclo.quantidadeSemDestino,
             valorEntrada: ciclo.valorEntrada,
-            valorSaida: ciclo.valorSaida
+            valorSaida: ciclo.valorSaida,
+            tempoCiclo: ciclo.tempoCiclo,
+            localId: ciclo.localId,
+            pesoAnimalEntrada: ciclo.pesoAnimalEntrada
         }
     }
 
-    montarCiclosCrescimento(ciclos) {
+    montarCiclosCreche(ciclos) {
         let itens = [];
 
         for (let i = 0; i < ciclos.length; i++) {
             let ciclo = ciclos[i];
-            itens.push(this.montarCicloCrescimento(ciclo));
+            itens.push(this.montarCicloCreche(ciclo));
         }
 
         return itens;

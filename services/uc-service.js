@@ -14,13 +14,14 @@ export class UCService {
    obterCiclosCrecheAtivo = async () => {
       let ciclos = await this.cicloCrecheRepository.obterAtivos();
       let locais = await this.localRepository.obterTodos();
+      
 
       for(let i=0; i < ciclos.length; i++){
          let ciclo = ciclos[i];
          ciclo.local = locais.filter(l => l.id == ciclo.localId)[0];
       }
 
-      return this.ucDto.montarCiclosCrescimento(ciclos);
+      return this.ucDto.montarCiclosCreche(ciclos);
    }
 
    obterRelatorioUC = async (dataInicial, dataFinal) => {
@@ -48,4 +49,15 @@ export class UCService {
       await this.cicloCrecheRepository.salvar(ciclo);
 
    }
+
+   atualizarCicloCreche = async (item) => {
+
+      let cicloCreche = await this.cicloCrecheRepository.obterPorId(item.id);
+
+      if(cicloCreche){
+         return await this.cicloCrecheRepository.atualizar(item.id, item);
+      }
+
+      return 0;
+  }
 }

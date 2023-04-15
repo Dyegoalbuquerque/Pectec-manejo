@@ -12,5 +12,6 @@ router.get('/relatorios/uc', ucController.obterRelatorioUC);
 
 router.post('/ciclo-creche', ucController.salvarCicloCreche);
 
+router.put('/ciclo-creche', ucController.atualizarCicloCreche);
 
 export default router;
