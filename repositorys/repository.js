@@ -68,8 +68,7 @@ export class Repository {
 
     }
 
-    async atualizar(id, item) {console.log(id)
-        console.log(item)
+    async atualizar(id, item) {
         const repositorio = await this.obterRepositorio();
         let resultado = await repositorio.updateOne({ _id: ObjectId(id) }, { $set: item });
         return resultado;
